@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  Image,
-  ScrollView,
-  Platform,
-  StatusBar,
-  KeyboardAw,
-} from "react-native";
+import React, { useState } from "react";
+import { Image, ScrollView, Platform, StatusBar } from "react-native";
 import {
   Container,
   Text,
