@@ -6,14 +6,13 @@ export default function PersonalDataHome({ data }) {
   const [time, setTime] = useState("");
   useEffect(() => {
     let hours = new Date().getHours();
-
     hours > 6 && hours <= 11
       ? setTime("Pagi")
       : hours > 11 && hours <= 15
       ? setTime("Siang")
       : hours > 15 && hours <= 18
       ? setTime("Sore")
-      : hours > 18 && hours <= 6
+      : hours > 18 || hours <= 6
       ? setTime("Malam")
       : "";
   }, []);
@@ -76,6 +75,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   text: {
     color: "#f9f7f7",

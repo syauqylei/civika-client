@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
 import { Container } from "native-base";
 import PersonalDataHome from "../components/PersonalDataHome";
-export default function HomeScreen() {
+import StudentMenu from "../components/StudentMenu";
+export default function HomeScreen({ navigation }) {
   const temporaryData = [
     {
       lecture: "Filsafat",
@@ -32,7 +32,7 @@ export default function HomeScreen() {
   return (
     <Container style={{ backgroundColor: "#f9f7f7" }}>
       <PersonalDataHome data={temporaryData} />
-      <View style={{ flex: 1 }}></View>
+      <StudentMenu navigation={navigation} />
     </Container>
   );
 }
