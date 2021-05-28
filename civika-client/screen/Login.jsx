@@ -1,14 +1,20 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
-
+import { View, Button } from "react-native";
+import { Container, Card, CardItem, Body, Text } from "native-base";
 export default function Login({ navigation }) {
   function submitLogin() {
     navigation.navigate("BottomTabHome");
   }
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Halaman login</Text>
-      <Button title="Login dulu yak" onPress={submitLogin} />
-    </View>
+    <Container>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Card>
+          <CardItem>
+            <Text>Halaman login</Text>
+            <Button title="Login dulu yak" onPress={submitLogin} />
+          </CardItem>
+        </Card>
+      </View>
+    </Container>
   );
 }
