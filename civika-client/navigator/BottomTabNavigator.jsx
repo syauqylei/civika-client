@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import HomeScreen from "../screen/Home";
 import ProfileScreen from "../screen/Profile";
+import AnnouncementScreen from "../screen/Announcement";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,10 +14,12 @@ export default function BottomTabNavigator() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "HomeScreen") {
+          if (route.name === "Beranda") {
             iconName = focused ? "home" : "home-outline";
-          } else if (route.name === "ProfileScreen") {
+          } else if (route.name === "Profil") {
             iconName = focused ? "person" : "person-outline";
+          } else if (route.name === "Pengumuman") {
+            iconName = focused ? "megaphone" : "megaphone-outline";
           }
           return <Ionicon name={iconName} size={size} color={color} />;
         },
@@ -31,8 +34,9 @@ export default function BottomTabNavigator() {
         },
       }}
     >
-      <Tab.Screen name="HomeScreen" component={HomeScreen} />
-      <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Tab.Screen name="Beranda" component={HomeScreen} />
+      <Tab.Screen name="Pengumuman" component={AnnouncementScreen} />
+      <Tab.Screen name="Profil" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
