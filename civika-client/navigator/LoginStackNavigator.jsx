@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "../screen/Login";
+import AddAnnouncement from "../screen/AddAnnouncement";
 import BottomTabNavigator from "./BottomTabNavigator";
 
 const Stack = createStackNavigator();
@@ -17,6 +18,10 @@ export default function LoginStackNavigator() {
         options={{ headerShown: false }}
         name="BottomTabHome"
         component={BottomTabNavigator}
+      />
+      <Stack.Screen
+        name="AddAnnouncement"
+        component={AddAnnouncement}
       />
     </Stack.Navigator>
   );
