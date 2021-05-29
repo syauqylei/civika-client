@@ -32,6 +32,8 @@ export default function SendNotification() {
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
+
+        // ini nanti mungkin bakal redirect ke halaman pengumuman biar kalo notif di pen
       });
 
     return () => {
