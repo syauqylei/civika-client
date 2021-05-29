@@ -31,28 +31,12 @@ export default function ScreenUKT() {
   }
 
   return (
-    <View
-      style={{
-        backgroundColor: "#dbe2ef",
-        flex: 1,
-        paddingHorizontal: 10,
-      }}
-    >
-      <Text
-        style={{
-          fontSize: 25,
-          fontWeight: "bold",
-          color: "#3f72af",
-          marginVertical: 10,
-          alignSelf: "center",
-        }}
-      >
-        Form Pembayaran UKT
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Form Pembayaran UKT</Text>
       <View style={{ flex: 1 }}>
         <Card style={styles.card}>
           <Label style={styles.label}>Nama</Label>
-          <Text style={styles.text}>{studentData.name}</Text>
+          <Text style={styles.text}>{studentData.fullName}</Text>
         </Card>
         <Card style={styles.card}>
           <Label style={styles.label}>Total UKT</Label>
@@ -67,13 +51,7 @@ export default function ScreenUKT() {
         <Card style={{ ...styles.card, height: 80 }}>
           <Label style={{ ...styles.label, flex: 1 }}>Metode Pembayaran</Label>
           <TouchableOpacity
-            style={{
-              flex: 1,
-              height: 60,
-              backgroundColor: "transparent",
-              borderBottomColor: "#333",
-              borderBottomWidth: 1,
-            }}
+            style={styles.pickerPaymentMethod}
             onPress={() => {
               !studentData.uktStatus
                 ? actionSheetRef.current?.setModalVisible()
@@ -84,6 +62,7 @@ export default function ScreenUKT() {
               value={paymentMethod}
               editable={false}
               placeholder="Pilih Metode Pembayaran"
+              style={{ fontSize: 14 }}
             />
           </TouchableOpacity>
           <ModalPaymentUKT
@@ -92,15 +71,7 @@ export default function ScreenUKT() {
             dataPayment={dataPayment}
           />
         </Card>
-        <Button
-          style={{
-            width: 80,
-            justifyContent: "center",
-            alignSelf: "center",
-            marginVertical: 20,
-          }}
-          onPress={submitPaymentUKT}
-        >
+        <Button style={styles.button} onPress={submitPaymentUKT}>
           <Text
             style={{
               color: "#dbe2ef",
@@ -130,5 +101,30 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#3f72af",
+    marginVertical: 10,
+    alignSelf: "center",
+  },
+  container: {
+    backgroundColor: "#dbe2ef",
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  button: {
+    width: 80,
+    justifyContent: "center",
+    alignSelf: "center",
+    marginVertical: 20,
+  },
+  pickerPaymentMethod: {
+    flex: 1,
+    height: 60,
+    backgroundColor: "transparent",
+    borderBottomColor: "#333",
+    borderBottomWidth: 1,
   },
 });

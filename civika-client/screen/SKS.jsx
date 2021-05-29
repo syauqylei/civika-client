@@ -12,27 +12,15 @@ export default function ScreenSKS() {
   todayClasses.forEach((lecture) => (totalSKS += +lecture.sks));
 
   return (
-    <View
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        flex: 1,
-        backgroundColor: "#f9f7f7",
-      }}
-    >
-      <Card
-        style={{
-          backgroundColor: "#112d4e",
-          borderRadius: 15,
-        }}
-      >
+    <View style={styles.container}>
+      <Card style={styles.cardOutside}>
         <Card style={styles.cardInside}>
           <CardItem header style={styles.cardItem}>
             <Text style={styles.textTitle}>Nama</Text>
           </CardItem>
           <CardItem style={styles.cardItem}>
             <Text style={{ fontSize: 30, textAlign: "center" }}>
-              {studentData.name}
+              {studentData.fullName}
             </Text>
           </CardItem>
           <View style={styles.border} />
@@ -104,11 +92,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "#3f72af",
   },
+  cardOutside: {
+    backgroundColor: "#112d4e",
+    borderRadius: 15,
+  },
   cardInside: {
     flex: 1,
-    width: width - 17,
+    width: width - 25,
     backgroundColor: "#dbe2ef",
     paddingVertical: 15,
     borderRadius: 15,
+  },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: "#f9f7f7",
   },
 });

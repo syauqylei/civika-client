@@ -19,6 +19,7 @@ export default function PersonalDataHome({ data }) {
       ? setTime("Malam")
       : "";
   }, []);
+
   return (
     <View style={styles.cardContainer}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -32,7 +33,7 @@ export default function PersonalDataHome({ data }) {
               flexWrap: "wrap",
             }}
           >
-            {user.name}
+            {user.fullName}
           </Text>
         </View>
         <View
@@ -42,29 +43,11 @@ export default function PersonalDataHome({ data }) {
             flex: 1,
           }}
         >
-          <View
-            style={{
-              flexDirection: "row",
-              borderRadius: 15,
-              backgroundColor: "#f9f7f7",
-              paddingHorizontal: 5,
-            }}
-          >
-            <Text
-              style={{
-                marginHorizontal: 5,
-                paddingTop: 4,
-                fontWeight: "bold",
-              }}
-            >
-              {user.status}
+          <View style={styles.roleThumbailContainer}>
+            <Text style={styles.role}>
+              {user.role === "student" ? "Mahasiswa" : "Dosen"}
             </Text>
-            <View
-              style={{
-                backgroundColor: "#f9f7f7",
-                borderRadius: 50,
-              }}
-            >
+            <View style={styles.thumbnail}>
               <Ionicon name="person" size={25} color="#3f72af" />
             </View>
           </View>
@@ -91,5 +74,20 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#f9f7f7",
+  },
+  thumbnail: {
+    backgroundColor: "#f9f7f7",
+    borderRadius: 50,
+  },
+  role: {
+    marginHorizontal: 5,
+    paddingTop: 4,
+    fontWeight: "bold",
+  },
+  roleThumbailContainer: {
+    flexDirection: "row",
+    borderRadius: 15,
+    backgroundColor: "#f9f7f7",
+    paddingHorizontal: 5,
   },
 });

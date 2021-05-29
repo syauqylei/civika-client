@@ -1,31 +1,83 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, Platform, StatusBar, TextInput } from "react-native";
-import { Container, Card, CardItem, Body, H1, Content, Thumbnail, Button, Input, Form } from "native-base";
+import {
+  Container,
+  Card,
+  CardItem,
+  Body,
+  H1,
+  Content,
+  Button,
+} from "native-base";
 
 export default function AddAnnouncement() {
   const [input, setInput] = useState({
-    title: "Civitas Enjoy Aman",
-    contentNews: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium maiores eius laudantium porro obcaecati consectetur libero error, ullam et sint! Maiores."
-  })
+    title: "",
+    contentNews: "",
+  });
 
   return (
-    <Container style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingTop: Platform.OS === "android"? StatusBar.currentHeight : null }}>
-      <H1 style={{ margin: 5 }}> Menambahkan Pengumuman </H1>
+    <Container
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : null,
+      }}
+    >
+      <H1 style={{ margin: 5, textAlign: "center" }}>Kirim Pengumuman</H1>
       <Content style={{ margin: 10 }}>
         <Card style={styles.card}>
-          <CardItem style={{ backgroundColor: "#dbe2ef", alignItems: 'center', flexDirection: "column" }}>
+          <CardItem
+            style={{
+              backgroundColor: "#dbe2ef",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
             <Body style={{ marginVertical: 5, marginHorizontal: 15 }}>
-              <Text style={{ fontSize: 15 }}>Judul: </Text>
-              <TextInput as="textarea" keyboardType="default" onChangeText={newItem => setInput({ ...input, title: newItem })} style={ styles.input } value={input.title}/>
+              <Text style={styles.title}>Judul: </Text>
+              <TextInput
+                placeholder="Judul pengumuman"
+                keyboardType="default"
+                onChangeText={(newItem) =>
+                  setInput({ ...input, title: newItem })
+                }
+                style={styles.input}
+                value={input.title}
+              />
             </Body>
             <Body style={{ marginVertical: 5, marginHorizontal: 15 }}>
-              <Text style={{ fontSize: 15 }}>Isi Pengumuman:</Text>
-              <TextInput multiline={true} onChangeText={newItem => setInput({ ...input, contentNews: newItem })} style={ styles.input } value={input.contentNews}/>
+              <Text style={styles.title}>Isi Pengumuman:</Text>
+              <TextInput
+                placeholder="Konten pengumuman"
+                multiline={true}
+                numberOfLines={5}
+                onChangeText={(newItem) =>
+                  setInput({ ...input, contentNews: newItem })
+                }
+                style={styles.input}
+                value={input.contentNews}
+              />
             </Body>
           </CardItem>
-          <CardItem style={{ borderBottomEndRadius: 10, borderBottomStartRadius: 10, backgroundColor: "#dbe2ef", justifyContent: "center" }}>
-            <Button style={{ backgroundColor: "#3f72af", width: 100, justifyContent: "center", borderRadius: 10 }}>
-              <Text style={{ color: 'white' }}>Tambahkan</Text>
+          <CardItem
+            style={{
+              borderBottomEndRadius: 10,
+              borderBottomStartRadius: 10,
+              backgroundColor: "#dbe2ef",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              style={{
+                backgroundColor: "#3f72af",
+                width: 100,
+                justifyContent: "center",
+                borderRadius: 10,
+              }}
+            >
+              <Text style={{ color: "white" }}>Tambahkan</Text>
             </Button>
           </CardItem>
         </Card>
@@ -37,7 +89,7 @@ export default function AddAnnouncement() {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
-    width: 300
+    width: 300,
   },
   input: {
     fontSize: 15,
@@ -47,6 +99,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderColor: "#3f72af",
     backgroundColor: "white",
-    borderRadius: 10
-  }
+    borderRadius: 10,
+  },
+  title: { fontSize: 15, marginBottom: 8 },
 });

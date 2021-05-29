@@ -36,11 +36,15 @@ const initialState = {
     },
   ],
   dataUser: {
-    name: "Muhamad Riski Putra Awali",
-    status: "Mahasiswa",
+    fullName: "Muhamad Riski Putra Awali",
+    address:
+      "Jl. A. Yani, Surabaya, Jawa Timur, Indonesia, Bumi, Galaksi Bima Sakti",
+    role: "student",
+    phoneNumber: "0812391827365",
     ukt: 5000000,
     ipk: 3.23,
     uktStatus: false,
+    email: "test@mail.com",
   },
   allLecture: [
     {
