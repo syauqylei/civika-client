@@ -13,7 +13,7 @@ export default function PersonalDataHome({ data }) {
       ? setTime("Siang")
       : hours > 15 && hours <= 18
       ? setTime("Sore")
-      : hours > 18 && hours <= 6
+      : hours > 18 || hours <= 6
       ? setTime("Malam")
       : "";
   }, []);
