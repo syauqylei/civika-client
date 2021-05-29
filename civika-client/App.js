@@ -5,6 +5,8 @@ import LoginStackNavigator from "./navigator/LoginStackNavigator";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 
+import { Provider } from "react-redux";
+import store from "./store";
 export default function App() {
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
@@ -26,8 +28,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <LoginStackNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <LoginStackNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 }
