@@ -1,29 +1,16 @@
-import React, { useState } from "react";
-import { StyleSheet, Image, LogBox } from "react-native";
+import React from "react";
+import { Image } from "react-native";
 import {
   Container,
   Button,
-  Icon,
   Text,
-  Right,
-  Left,
-  Header,
   View,
-  DeckSwiper,
-  Card,
-  CardItem,
-  Thumbnail,
-  Body,
+  DeckSwiper
 } from "native-base";
 import PersonalDataHome from "../components/PersonalDataHome";
 import Ionicon from "react-native-vector-icons/Ionicons";
-import Carousel from "react-native-snap-carousel";
 
-export default function HomeScreen() {
-  {
-    /* New parts*/
-  }
-
+export default function HomeScreen({ navigation }) {
   const temporaryData = [
     {
       sks: 5,
@@ -50,13 +37,6 @@ export default function HomeScreen() {
       dosen: "Joko Winarno",
     },
   ];
-  {
-    /* New parts*/
-  }
-
-  {
-    /* New parts*/
-  }
 
   const cards = [
     {
@@ -81,10 +61,6 @@ export default function HomeScreen() {
     },
   ];
 
-  {
-    /* New parts*/
-  }
-
   return (
     <Container style={{ backgroundColor: "#f9f7f7" }}>
       <PersonalDataHome data={temporaryData} />
@@ -97,49 +73,17 @@ export default function HomeScreen() {
               style={{
                 backgroundColor: "#112d4e",
                 alignSelf: "center",
-                marginVertical: 15,
-                width: 60,
+                marginTop: 50,
+                width: 250,
                 justifyContent: "center",
               }}
+              onPress={() => navigation.navigate("Kelas")}
             >
-              <Ionicon name="card" size={30} color="#dbe2ef" />
+              <Ionicon name="list" size={30} color="#dbe2ef" />
+              <Text style={{ alignSelf: "center" }}>Kelas</Text>
             </Button>
-            <Text style={{ alignSelf: "center" }}>KRS</Text>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Button
-              large
-              Icon
-              style={{
-                backgroundColor: "#112d4e",
-                alignSelf: "center",
-                marginVertical: 15,
-                width: 60,
-                justifyContent: "center",
-              }}
-            >
-              <Ionicon name="wallet" size={30} color="#dbe2ef" />
-            </Button>
-            <Text style={{ alignSelf: "center" }}>UKT</Text>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Button
-              large
-              Icon
-              style={{
-                backgroundColor: "#112d4e",
-                alignSelf: "center",
-                marginVertical: 15,
-                width: 60,
-                justifyContent: "center",
-              }}
-            >
-              <Ionicon name="school" size={30} color="#dbe2ef" />
-            </Button>
-            <Text style={{ alignSelf: "center" }}>SKS</Text>
           </View>
         </View>
-        {/* New parts*/}
 
         <View style={{ flex: 1.5 }}>
           <DeckSwiper
@@ -157,7 +101,6 @@ export default function HomeScreen() {
             )}
           />
         </View>
-        {/* New parts*/}
       </View>
     </Container>
   );

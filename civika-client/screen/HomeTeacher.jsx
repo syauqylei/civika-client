@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Container, Button, Icon, Text, Right, Left, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Body } from "native-base";
+import { Container, Button, Icon, Right, Left, Header, DeckSwiper, Card, CardItem, Thumbnail, Body } from "native-base";
 import PersonalDataHome from "../components/PersonalDataHome";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
@@ -49,7 +49,7 @@ export default function HomeTeacherScreen() {
         {
           text: 'Card One',
           name: 'Four',
-          image: require('../assets/banner-civika4.png'),
+          image: require('../assets/banner-civika4-min.png'),
         }
         
       ];
