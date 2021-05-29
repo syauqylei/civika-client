@@ -1,11 +1,46 @@
 import { createStore, applyMiddleware } from "redux";
 
 const initialState = {
+  paymentMethodList: [
+    {
+      name: "Mandiri Virtual Account",
+      value: "M1",
+    },
+    {
+      name: "BCA KlikPay",
+      value: "BK",
+    },
+    {
+      name: "Permata Bank Virtual Account",
+      value: "BT",
+    },
+    {
+      name: "CIMB Niaga Virtual Account",
+      value: "B1",
+    },
+    {
+      name: "ATM Bersama",
+      value: "A1",
+    },
+    {
+      name: "BNI Virtual Account",
+      value: "I1",
+    },
+    {
+      name: "Maybank Virtual Account",
+      value: "VA",
+    },
+    {
+      name: "OVO",
+      value: "OV",
+    },
+  ],
   dataUser: {
     name: "Muhamad Riski Putra Awali",
     status: "Mahasiswa",
-    ukt: "5.000.000",
+    ukt: 5000000,
     ipk: 3.23,
+    uktStatus: false,
   },
   allLecture: [
     {
