@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Platform, StatusBar } from "react-native";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import LectureListContainer from "./LectureListContainer";
+import { useSelector } from "react-redux";
+
 export default function PersonalDataHome({ data }) {
+  const user = useSelector((state) => state.dataUser);
   const [time, setTime] = useState("");
   useEffect(() => {
     let hours = new Date().getHours();
@@ -19,16 +22,24 @@ export default function PersonalDataHome({ data }) {
   return (
     <View style={styles.cardContainer}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <View>
+        <View style={{ flex: 1 }}>
           <Text style={styles.text}>Selamat {time}</Text>
-          <Text style={{ ...styles.text, fontWeight: "bold", fontSize: 17 }}>
-            Nama siswa
+          <Text
+            style={{
+              ...styles.text,
+              fontWeight: "bold",
+              fontSize: 15,
+              flexWrap: "wrap",
+            }}
+          >
+            {user.name}
           </Text>
         </View>
         <View
           style={{
             justifyContent: "center",
             alignItems: "center",
+            flex: 1,
           }}
         >
           <View
@@ -46,7 +57,7 @@ export default function PersonalDataHome({ data }) {
                 fontWeight: "bold",
               }}
             >
-              Mahasiswa
+              {user.status}
             </Text>
             <View
               style={{
@@ -59,7 +70,7 @@ export default function PersonalDataHome({ data }) {
           </View>
         </View>
       </View>
-      <Text style={{ ...styles.text, marginTop: 20 }}>
+      <Text style={{ ...styles.text, marginTop: 20, fontSize: 15 }}>
         Jadwal kuliah hari ini
       </Text>
       {/* Flat list untuk jadwal kuliah */}
@@ -80,6 +91,5 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#f9f7f7",
-    fontSize: 15,
   },
 });

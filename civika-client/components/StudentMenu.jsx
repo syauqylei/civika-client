@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Button, Text } from "native-base";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
@@ -13,13 +13,7 @@ export default function StudentMenu({ navigation }) {
         <Button
           Icon
           large
-          style={{
-            alignSelf: "center",
-            backgroundColor: "#112d4e",
-            marginVertical: 15,
-            width: 60,
-            justifyContent: "center",
-          }}
+          style={styles.iconButton}
           onPress={() => changeScreen("KRS")}
         >
           <Ionicon name="card" size={30} color="#dbe2ef" />
@@ -30,13 +24,7 @@ export default function StudentMenu({ navigation }) {
         <Button
           large
           Icon
-          style={{
-            alignSelf: "center",
-            backgroundColor: "#112d4e",
-            marginVertical: 15,
-            width: 60,
-            justifyContent: "center",
-          }}
+          style={styles.iconButton}
           onPress={() => changeScreen("UKT")}
         >
           <Ionicon name="wallet" size={30} color="#dbe2ef" />
@@ -47,13 +35,7 @@ export default function StudentMenu({ navigation }) {
         <Button
           large
           Icon
-          style={{
-            alignSelf: "center",
-            backgroundColor: "#112d4e",
-            marginVertical: 15,
-            width: 60,
-            justifyContent: "center",
-          }}
+          style={styles.iconButton}
           onPress={() => changeScreen("SKS")}
         >
           <Ionicon name="school" size={30} color="#dbe2ef" />
@@ -63,3 +45,13 @@ export default function StudentMenu({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  iconButton: {
+    alignSelf: "center",
+    backgroundColor: "#112d4e",
+    marginVertical: 15,
+    width: 60,
+    justifyContent: "center",
+  },
+});

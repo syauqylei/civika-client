@@ -26,7 +26,6 @@ export default function LectureCard({ item }) {
           }}
         >
           {item.lecture}
-          {/* Nama Mata Kuliah */}
         </Text>
       </View>
       <View>
@@ -93,10 +92,10 @@ export default function LectureCard({ item }) {
               style={{
                 alignSelf: "center",
                 marginTop: 8,
+                textAlign: "center",
               }}
             >
               {item.dosen}
-              {/* NAMA DOSEN */}
             </Text>
           </View>
         </View>
