@@ -4,6 +4,8 @@ const initialState = {
   dataUser: {
     name: "Muhamad Riski Putra Awali",
     status: "Mahasiswa",
+    ukt: "5.000.000",
+    ipk: 3.23,
   },
   allLecture: [
     {
