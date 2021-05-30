@@ -8,12 +8,13 @@ import {
 } from "react-native";
 import { Container, H1, Content, Button, Icon } from "native-base";
 import AnnouncementList from "../components/AnnouncementList";
+import { useSelector } from "react-redux";
 
 const { width } = Dimensions.get("window");
 
 export default function AnnouncementScreen({ navigation }) {
   const role = "Dosen";
-
+  const dataUser = useSelector((state) => state.dataUser);
   return (
     <Container
       style={{
@@ -27,7 +28,7 @@ export default function AnnouncementScreen({ navigation }) {
         <AnnouncementList />
         <AnnouncementList />
       </Content>
-      {role === "Dosen" ? (
+      {dataUser.role === "teacher" ? (
         <Button
           onPress={() => navigation.navigate("Pengumuman")}
           rounded

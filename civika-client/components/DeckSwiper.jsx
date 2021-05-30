@@ -1,7 +1,8 @@
 import React from "react";
-import { Image, StyleSheet } from "react-native";
-import { DeckSwiper, Image, View } from "native-base";
+import { Image, StyleSheet, Dimensions } from "react-native";
+import { DeckSwiper, View } from "native-base";
 
+const { width } = Dimensions.get("window");
 export default function BannerDeckSwiper() {
   const cards = [
     {
@@ -40,8 +41,8 @@ export default function BannerDeckSwiper() {
 
 const styles = StyleSheet.create({
   image: {
-    height: 185,
-    width: 380,
+    height: 198,
+    width: width,
     flex: 1,
     alignSelf: "center",
   },

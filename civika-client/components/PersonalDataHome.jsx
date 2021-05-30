@@ -22,15 +22,14 @@ export default function PersonalDataHome({ data }) {
 
   return (
     <View style={styles.cardContainer}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <View style={{ flex: 1 }}>
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ flex: user.role === "student" ? 1.5 : 2 }}>
           <Text style={styles.text}>Selamat {time}</Text>
           <Text
             style={{
               ...styles.text,
               fontWeight: "bold",
               fontSize: 15,
-              flexWrap: "wrap",
             }}
           >
             {user.fullName}

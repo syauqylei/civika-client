@@ -1,12 +1,12 @@
 import React from "react";
-import { Button } from "native-base";
-import { View, Text, StyleSheet } from "react-native";
+import { Button, Text } from "native-base";
+import { View, StyleSheet } from "react-native";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
 export default function TeacherMenu({ navigation }) {
   return (
     <View style={{ flex: 1, flexDirection: "row" }}>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Button
           large
           Icon
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#112d4e",
     alignSelf: "center",
-    marginTop: 50,
     width: 250,
     justifyContent: "center",
   },

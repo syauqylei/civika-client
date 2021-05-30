@@ -39,7 +39,7 @@ const initialState = {
     fullName: "Muhamad Riski Putra Awali",
     address:
       "Jl. A. Yani, Surabaya, Jawa Timur, Indonesia, Bumi, Galaksi Bima Sakti",
-    role: "student",
+    role: "teacher",
     phoneNumber: "0812391827365",
     ukt: 5000000,
     ipk: 3.23,

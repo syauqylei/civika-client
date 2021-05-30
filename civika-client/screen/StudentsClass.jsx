@@ -1,16 +1,9 @@
 import React from "react";
-import {
-  StyleSheet,
-  Platform,
-  StatusBar,
-  Text,
-  View
-} from "react-native";
-import { Container, H1, Content, Card, Icon, CardItem } from "native-base";
+import { Platform, StatusBar, Text, View } from "react-native";
+import { Container, H1, Content, Card, CardItem } from "native-base";
 
-
-export default function StudentsClassScreen({ navigation, route }) {
-  const { students } = route.params
+export default function StudentsClassScreen({ route }) {
+  const { students } = route.params;
   return (
     <Container
       style={{
@@ -24,23 +17,58 @@ export default function StudentsClassScreen({ navigation, route }) {
         <View>
           <Card style={{ flexDirection: "row" }}>
             <CardItem style={{ backgroundColor: "#3f72af" }}>
-              <Text style={{ paddingLeft: 0, paddingHorizontal: 10, fontSize: 20, fontWeight: "bold" }}>No</Text>
+              <Text
+                style={{
+                  paddingLeft: 0,
+                  paddingHorizontal: 10,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                No
+              </Text>
             </CardItem>
             <CardItem style={{ backgroundColor: "#3f72af" }}>
-              <Text style={{ paddingLeft: 15, paddingHorizontal: 100, fontSize: 20, fontWeight: "bold" }}>Nama</Text>
+              <Text
+                style={{
+                  paddingLeft: 15,
+                  paddingHorizontal: 100,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                Nama
+              </Text>
             </CardItem>
           </Card>
           {students.map((student, i) => {
             return (
               <Card key={i} style={{ flexDirection: "row" }}>
                 <CardItem style={{ flex: 1, backgroundColor: "#dbe2ef" }}>
-                  <Text style={{ paddingVertical: 2, paddingHorizontal: 10, fontSize: 18, marginLeft: 0 }}>{i + 1}</Text>
+                  <Text
+                    style={{
+                      paddingVertical: 2,
+                      paddingHorizontal: 10,
+                      fontSize: 18,
+                      marginLeft: 0,
+                    }}
+                  >
+                    {i + 1}
+                  </Text>
                 </CardItem>
                 <CardItem style={{ flex: 4, backgroundColor: "#dbe2ef" }}>
-                  <Text style={{ paddingVertical: 2, paddingHorizontal: 10, fontSize: 18 }}>{student}</Text>
+                  <Text
+                    style={{
+                      paddingVertical: 2,
+                      paddingHorizontal: 10,
+                      fontSize: 18,
+                    }}
+                  >
+                    {student}
+                  </Text>
                 </CardItem>
               </Card>
-            )
+            );
           })}
         </View>
       </Content>
