@@ -57,7 +57,7 @@ export default function PersonalDataHome({ data }) {
         Jadwal kuliah hari ini
       </Text>
       {/* Flat list untuk jadwal kuliah */}
-      <LectureListContainer data={data} />
+      <LectureListContainer data={data} user={user} />
     </View>
   );
 }

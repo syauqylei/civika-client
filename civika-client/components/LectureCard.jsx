@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Dimensions } from "react-native";
 
 const { width } = Dimensions.get("screen");
-export default function LectureCard({ item }) {
+export default function LectureCard({ item, user }) {
+  const [card, setCard] = useState("Dosen");
+  const [name, setName] = useState("");
+  useEffect(() => {
+    if (item.role === "Dosen") {
+      setCard("");
+      setName("");
+    } else {
+      setCard("Dosen");
+      setName(item.dosen);
+    }
+  }, []);
+
   return (
     <View
       style={{
@@ -86,7 +98,9 @@ export default function LectureCard({ item }) {
                 color: "#3f72af",
               }}
             >
-              Dosen
+              {/* New parts*/}
+              {card}
+              {/* New parts*/}
             </Text>
             <Text
               style={{
