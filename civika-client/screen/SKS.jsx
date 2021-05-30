@@ -6,10 +6,10 @@ import { useSelector } from "react-redux";
 const { width } = Dimensions.get("window");
 
 export default function ScreenSKS() {
-  const todayClasses = useSelector((state) => state.todayClasses);
+  const allLecture = useSelector((state) => state.allLecture);
   const studentData = useSelector((state) => state.dataUser);
   let totalSKS = 0;
-  todayClasses.forEach((lecture) => (totalSKS += +lecture.sks));
+  allLecture.forEach((lecture) => (totalSKS += +lecture.credits));
 
   return (
     <View style={styles.container}>

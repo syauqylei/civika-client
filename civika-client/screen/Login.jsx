@@ -10,9 +10,12 @@ import {
   Label,
   Button,
 } from "native-base";
+import { useDispatch } from "react-redux"
+import { login, SET_TOKEN_LOADING, fetchUser, SET_TOKEN_ERR, setToken } from "../store/action"
 
 export default function Login({ navigation }) {
-  const [dataLogin, setDataLogin] = useState({ email: "", password: "" });
+  const dispatch = useDispatch()
+  const [dataLogin, setDataLogin] = useState({ email: "andi.utomo@hacktivmail.com", password: "password678" });
 
   function checkEmail(email) {
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -23,8 +26,17 @@ export default function Login({ navigation }) {
   function submitLogin() {
     const isEmail = checkEmail(dataLogin.email);
     if (isEmail) {
-      console.log(isEmail);
-      navigation.navigate("BottomTabHome");
+      dispatch(login(dataLogin))
+        .then(res => res.json())
+        .then(res => {
+          dispatch(setToken(res.access_token))
+          dispatch(fetchUser(res.id, res.access_token))
+          navigation.navigate("BottomTabHome");
+        })
+        .catch(err => dispatch({ type: SET_TOKEN_ERR, payload: err }))
+        .finally(() => {
+          dispatch({ type: SET_TOKEN_LOADING, payload: false })
+        })
     } else {
       console.log(isEmail, "dari else");
     }

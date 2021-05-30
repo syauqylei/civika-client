@@ -37,7 +37,7 @@ export default function LectureCard({ item, user }) {
             marginTop: 12,
           }}
         >
-          {item.lecture}
+          {item.name}
         </Text>
       </View>
       <View>
@@ -64,7 +64,7 @@ export default function LectureCard({ item, user }) {
                 marginTop: 8,
               }}
             >
-              {item.sks}
+              {item.credits}
               {/* Data SKS */}
             </Text>
           </View>
@@ -85,7 +85,7 @@ export default function LectureCard({ item, user }) {
                 marginTop: 8,
               }}
             >
-              {item.time}
+              {item.schedule}
               {/* Data jam kuliah */}
             </Text>
           </View>

@@ -5,18 +5,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Linking,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import useRupiah from "../hooks/useRupiah";
 import { Label, Card, Button } from "native-base";
 import ModalPaymentUKT from "../components/ModalPaymentUKT";
+import { editUser, sendPayment } from "../store/action"
 
 export default function ScreenUKT() {
   const actionSheetRef = createRef();
+  const dispatch = useDispatch()
   const studentData = useSelector((state) => state.dataUser);
   const dataPayment = useSelector((state) => state.paymentMethodList);
+  const token = useSelector((state) => state.access_token);
   const { uktConverted } = useRupiah(studentData.ukt);
   const [paymentMethod, setPaymentMethod] = useState(undefined);
+  const [paymentUrl, setPaymentUrl] = useState(false)
 
   function selectPaymentMethod(value) {
     setPaymentMethod(value);
@@ -28,6 +33,24 @@ export default function ScreenUKT() {
       (payment) => payment.name === paymentMethod
     );
     console.log(payment);
+    dispatch(sendPayment(payment, token, studentData.id))
+      .then(res => res.json())
+      .then(data => {
+        setPaymentUrl(data.paymentUrl);
+      })
+      .catch(err => console.log(err))
+  }
+
+  function openUrl() {
+    Linking.canOpenURL(paymentUrl)
+      .then(supported => {
+        if (supported) {
+          Linking.openURL(paymentUrl);
+          dispatch(editUser({...studentData, uktStatus: true}, token))
+        } else {
+          console.log("Don't know how to open URI: ");
+        }
+      });
   }
 
   return (
@@ -71,7 +94,17 @@ export default function ScreenUKT() {
             dataPayment={dataPayment}
           />
         </Card>
-        <Button style={styles.button} onPress={submitPaymentUKT}>
+        { !paymentUrl? <Button style={styles.button} onPress={submitPaymentUKT}>
+          <Text
+            style={{
+              color: "#dbe2ef",
+              fontSize: 22,
+            }}
+          >
+            Pilih
+          </Text>
+        </Button> :
+        <Button style={styles.button} onPress={openUrl}>
           <Text
             style={{
               color: "#dbe2ef",
@@ -80,7 +113,7 @@ export default function ScreenUKT() {
           >
             Bayar
           </Text>
-        </Button>
+        </Button>}
       </View>
     </View>
   );

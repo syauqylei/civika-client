@@ -2,7 +2,7 @@ import React from "react";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Card, CardItem, Body } from "native-base";
 
-export default function ClassList({ navigation }) {
+export default function ClassList({ navigation, lecture }) {
   const listStudents = [
     "Muhammad Riski Putra Awali",
     "Fauzan Hilmy",
@@ -30,7 +30,7 @@ export default function ClassList({ navigation }) {
             backgroundColor: "#dbe2ef",
           }}
         >
-          <Text>Nama Kelas</Text>
+          <Text>{lecture.name}</Text>
         </CardItem>
         <CardItem
           style={{
@@ -40,7 +40,9 @@ export default function ClassList({ navigation }) {
           }}
         >
           <Body>
-            <Text style={{ color: "white" }}>Jam Kelas</Text>
+            <Text style={{ color: "white" }}>Jadwal: {lecture.schedule}</Text>
+            <Text style={{ color: "white" }}>Kuota: {lecture.quota}</Text>
+            <Text style={{ color: "white" }}>SKS: {lecture.credits}</Text>
           </Body>
         </CardItem>
       </Card>

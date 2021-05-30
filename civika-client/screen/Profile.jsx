@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, Platform, StatusBar, TextInput } from "react-native";
 import {
   Container,
@@ -10,11 +10,18 @@ import {
   Thumbnail,
   Button,
 } from "native-base";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { editUser, fetchUser } from "../store/action"
 
 export default function ProfileScreen() {
+  const dispatch = useDispatch()
   const dataProfile = useSelector((state) => state.dataUser);
+  const token = useSelector((state) => state.access_token);
   const [input, setInput] = useState(dataProfile);
+
+  function submitEdit() {
+    dispatch(editUser(input, token))
+  }
 
   return (
     <Container style={styles.container}>
@@ -83,7 +90,7 @@ export default function ProfileScreen() {
               justifyContent: "center",
             }}
           >
-            <Button style={styles.button}>
+            <Button onPress={submitEdit} style={styles.button}>
               <Text style={{ color: "white" }}>Edit</Text>
             </Button>
           </CardItem>

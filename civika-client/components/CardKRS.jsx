@@ -23,7 +23,7 @@ export default function CardKRS({ lecture, setInputKRS }) {
           style={{ flexDirection: "row", justifyContent: "space-between" }}
         >
           <Text style={{ fontSize: 18, fontWeight: "bold", color: "#112d4e" }}>
-            {lecture.lecture}
+            {lecture.name}
           </Text>
           <CheckBox
             style={{ borderRadius: 50 }}
@@ -35,8 +35,8 @@ export default function CardKRS({ lecture, setInputKRS }) {
           <Body
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
-            <Text>SKS: {lecture.sks}</Text>
-            <Text>Waktu: {lecture.time}</Text>
+            <Text>SKS: {lecture.credits}</Text>
+            <Text>Waktu: {lecture.schedule}</Text>
           </Body>
         </CardItem>
       </Card>
