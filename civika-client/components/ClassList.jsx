@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Card, CardItem, Body } from "native-base";
+import { useDispatch, useSelector } from "react-redux";
+import { getClassStudents } from "../store/action";
 
 export default function ClassList({ navigation, lecture }) {
-  const listStudents = [
-    "Muhammad Riski Putra Awali",
-    "Fauzan Hilmy",
-    "Mulki Marwan Adam",
-    "Syauqi Lenterano EL Ilhami",
-    "Andi Javier Lafiedrido",
-    "Muhammad Riski Putra Awali",
-    "Fauzan Hilmy",
-    "Mulki Marwan Adam",
-    "Syauqi Lenterano EL Ilhami",
-    "Andi Javier Lafiedrido",
-  ];
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.access_token);
+  const [listStudents, setListStudents] = useState([]);
+
+  useEffect(() => {
+    dispatch(getClassStudents(lecture.id, token))
+      .then((r) => r.json())
+      .then((result) => {
+        const students = result.map((el) => el.User);
+        setListStudents(students);
+      });
+  }, []);
+
   return (
     <TouchableOpacity
       onPress={() =>

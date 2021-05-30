@@ -64,7 +64,7 @@ export default function StudentsClassScreen({ route }) {
                       fontSize: 18,
                     }}
                   >
-                    {student}
+                    {student.fullName}
                   </Text>
                 </CardItem>
               </Card>
