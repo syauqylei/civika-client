@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:3000";
+const SERVER_URL = "http://192.168.1.15:3000";
 export const SET_ANNOUNCEMENT = "announcement/setAnnouncement";
 export const SET_ANNOUNCEMENT_LOADING = "announcement/setAnnouncementLoading";
 export const SET_STUDENTS = "students/setStudents";
@@ -25,7 +25,7 @@ export function setLecture(payload) {
 export function login(payload) {
   return function (dispatch) {
     dispatch({ type: SET_TOKEN_LOADING, payload: true });
-    return fetch("http://localhost:3000/login", {
+    return fetch(`${SERVER_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export function login(payload) {
 export function fetchUser(id, token) {
   return function (dispatch) {
     dispatch({ type: SET_USER_LOADING, payload: true });
-    fetch("http://localhost:3000/users/" + id, {
+    fetch(`${SERVER_URL}/users/` + id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export function editUser(payload, token) {
   return function (dispatch) {
     console.log(payload.id, payload);
     dispatch({ type: SET_USER_LOADING, payload: true });
-    fetch("http://localhost:3000/users/edit?id=" + +payload.id, {
+    fetch(`${SERVER_URL}/users/edit?id=` + +payload.id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export function editUser(payload, token) {
 
 export function sendPayment(payload, token, id) {
   return function (dispatch) {
-    return fetch(`http://localhost:3000/users/${+id}/genDuitkuLink`, {
+    return fetch(`${SERVER_URL}/users/${+id}/genDuitkuLink`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export function sendPayment(payload, token, id) {
 export function fetchLecture(token) {
   return function (dispatch) {
     dispatch({ type: SET_LECTURE_LOADING, payload: true });
-    fetch("http://localhost:3000/lectures/", {
+    fetch(`${SERVER_URL}/lectures/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export function fetchAnnouncement(token) {
 }
 export function getClassStudents(lectureId, token) {
   return function (dispatch) {
-    return fetch(`http://localhost:3000/class/lecture/${lectureId}`, {
+    return fetch(`${SERVER_URL}/class/lecture/${lectureId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
