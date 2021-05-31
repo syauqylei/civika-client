@@ -143,7 +143,8 @@ export function addKRS (payload, token) {
       headers: {
         'Content-Type': 'application/json',
         'access_token': token
-      }
+      },
+      data: payload
     })
     .then(res => res.json())
       .then(lecture => {

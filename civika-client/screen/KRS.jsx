@@ -9,9 +9,10 @@ export default function ScreenKRS({navigation}) {
   const dispatch = useDispatch();
   const [inputKRS, setInputKRS] = useState([]);
   const allLecture = useSelector((state) => state.allLecture);
+  const token = useSelector((state) => state.access_token);
   function submitKRS() {
-    console.log(inputKRS);
-    // dispatch(addKRS(inputKRS));
+    // console.log(inputKRS);
+    dispatch(addKRS(inputKRS, token));
     navigation.navigate("BottomTabHome");
   }
   return (
