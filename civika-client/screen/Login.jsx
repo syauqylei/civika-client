@@ -38,9 +38,8 @@ export default function Login({ navigation }) {
       dispatch(login(dataLogin))
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
           dispatch(setToken(res.access_token));
-          dispatch(fetchUser(res.id, res.access_token));
+          dispatch(fetchUser(res.userId, res.access_token));
           navigation.navigate("BottomTabHome");
         })
         .catch((err) => dispatch({ type: SET_TOKEN_ERR, payload: err }))

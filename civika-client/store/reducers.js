@@ -1,4 +1,6 @@
-import { 
+import {
+  SET_ANNOUNCEMENT,
+  SET_ANNOUNCEMENT_LOADING,
   SET_LECTURE,
   SET_USER_ERR,
   SET_STUDENTS,
@@ -8,8 +10,8 @@ import {
   SET_TOKEN_ERR,
   SET_TOKEN_LOADING,
   SET_LECTURE_ERR,
-  SET_LECTURE_LOADING
- } from "./action"
+  SET_LECTURE_LOADING,
+} from "./action";
 
 const initialState = {
   paymentMethodList: [
@@ -46,17 +48,7 @@ const initialState = {
       value: "OV",
     },
   ],
-  dataUser: {
-    fullName: "Muhamad Riski Putra Awali",
-    address:
-      "Jl. A. Yani, Surabaya, Jawa Timur, Indonesia, Bumi, Galaksi Bima Sakti",
-    role: "teacher",
-    phoneNumber: "0812391827365",
-    ukt: 5000000,
-    ipk: 3.23,
-    uktStatus: false,
-    email: "test@mail.com",
-  },
+  dataUser: {},
   allLecture: [
     {
       id: 1,
@@ -92,6 +84,8 @@ const initialState = {
   tokenErr: false,
   lectureLoading: false,
   lectureErr: false,
+  announcements: [],
+  announcementsLoading: false,
 };
 
 export default function reducers(state = initialState, action) {
@@ -120,7 +114,12 @@ export default function reducers(state = initialState, action) {
       return { ...state, lectureErr: payload };
     case SET_STUDENTS:
       return { ...state, students: payload };
+    case SET_ANNOUNCEMENT:
+      return { ...state, announcements: payload };
+    case SET_ANNOUNCEMENT_LOADING:
+      return { ...state, announcementsLoading: payload };
     default:
       return state;
   }
 }
+

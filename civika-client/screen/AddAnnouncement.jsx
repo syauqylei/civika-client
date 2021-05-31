@@ -9,8 +9,18 @@ import {
   Content,
   Button,
 } from "native-base";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addAnnouncement,
+  fetchAnnouncement,
+  SET_ANNOUNCEMENT,
+  SET_ANNOUNCEMENT_LOADING,
+} from "../store/action";
 
-export default function AddAnnouncement() {
+export default function AddAnnouncement({ navigation }) {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.access_token);
+  const dataUser = useSelector((state) => state.dataUser);
   const [input, setInput] = useState({
     title: "",
     contentNews: "",
@@ -75,6 +85,30 @@ export default function AddAnnouncement() {
                 width: 100,
                 justifyContent: "center",
                 borderRadius: 10,
+              }}
+              onPress={() => {
+                const payload = {
+                  teacher: dataUser.fullName,
+                  title: input.title,
+                  message: input.contentNews,
+                };
+                dispatch(addAnnouncement(payload, token))
+                  .then((r) => r.json())
+                  .then((r) => {
+                    dispatch(fetchAnnouncement(token))
+                      .then((r) => r.json())
+                      .then((r) => {
+                        navigation.navigate("Announcement-Stack");
+                        dispatch({ type: SET_ANNOUNCEMENT, payload: r });
+                      })
+                      .catch(console.log)
+                      .finally(() => {
+                        dispatch({
+                          type: SET_ANNOUNCEMENT_LOADING,
+                          payload: true,
+                        });
+                      });
+                  });
               }}
             >
               <Text style={{ color: "white" }}>Tambahkan</Text>

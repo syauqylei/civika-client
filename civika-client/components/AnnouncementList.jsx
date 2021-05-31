@@ -1,20 +1,46 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import { Card, CardItem, Body, Icon } from "native-base";
+import { Card, CardItem, Body, Icon, Button } from "native-base";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAnnouncementById } from "../store/action";
 
-export default function AnnouncementList() {
+export default function AnnouncementList(props) {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.access_token);
   return (
     <Card style={styles.card}>
-      <CardItem header style={{ borderTopEndRadius: 10, borderTopStartRadius: 10, backgroundColor: "#dbe2ef", flexDirection: "row", justifyContent: "space-between" }}>
+      <CardItem
+        header
+        style={{
+          borderTopEndRadius: 10,
+          borderTopStartRadius: 10,
+          backgroundColor: "#dbe2ef",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         <View>
-          <Text style={{ fontWeight: "bold" }}>Judul Pengumuman</Text>
-          <Text>Nama Pembuat</Text>
+          <Text style={{ fontWeight: "bold" }}>{props.announcement.title}</Text>
+          <Text>{props.announcement.teacher}</Text>
         </View>
-        <Icon name="close" type="AntDesign"/>
+        <Button
+          transparent={true}
+          onPress={() => {
+            dispatch(deleteAnnouncementById(props.announcement.id, token));
+          }}
+        >
+          <Icon name="close" type="AntDesign" style={{ color: "black" }} />
+        </Button>
       </CardItem>
-      <CardItem style={{ borderBottomEndRadius: 10, borderBottomStartRadius: 10, backgroundColor: "#3f72af" }}>
+      <CardItem
+        style={{
+          borderBottomEndRadius: 10,
+          borderBottomStartRadius: 10,
+          backgroundColor: "#3f72af",
+        }}
+      >
         <Body>
-          <Text style={{ color: 'white' }}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium maiores eius laudantium porro obcaecati consectetur libero error nulla eos amet pariatur placeat veniam corrupti ut quia, ullam et sint! Maiores.</Text>
+          <Text style={{ color: "white" }}>{props.announcement.message}</Text>
         </Body>
       </CardItem>
     </Card>
@@ -24,6 +50,6 @@ export default function AnnouncementList() {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
-    width: 300
+    width: 300,
   },
 });

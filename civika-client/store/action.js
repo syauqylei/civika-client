@@ -1,3 +1,6 @@
+const SERVER_URL = "http://localhost:3000";
+export const SET_ANNOUNCEMENT = "announcement/setAnnouncement";
+export const SET_ANNOUNCEMENT_LOADING = "announcement/setAnnouncementLoading";
 export const SET_STUDENTS = "students/setStudents";
 export const SET_LECTURE = "lecture/setLecture";
 export const SET_LECTURE_ERR = "lectureErr/setLectureErr";
@@ -110,6 +113,17 @@ export function fetchLecture(token) {
   };
 }
 
+export function fetchAnnouncement(token) {
+  return function (dispatch) {
+    return fetch(`${SERVER_URL}/announcement`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        access_token: token,
+      },
+    });
+  };
+}
 export function getClassStudents(lectureId, token) {
   return function (dispatch) {
     return fetch(`http://localhost:3000/class/lecture/${lectureId}`, {
@@ -121,4 +135,38 @@ export function getClassStudents(lectureId, token) {
     });
   };
 }
-
+export function deleteAnnouncementById(id, token) {
+  return function (dispatch) {
+    fetch(`${SERVER_URL}/announcement/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        access_token: token,
+      },
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        dispatch(fetchAnnouncement(token))
+          .then((r) => r.json())
+          .then((r) => {
+            dispatch({ type: SET_ANNOUNCEMENT, payload: r });
+          })
+          .catch(console.log)
+          .finally(() => {
+            dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: true });
+          });
+      });
+  };
+}
+export function addAnnouncement(payload, token) {
+  return function (dispatch) {
+    return fetch(`${SERVER_URL}/announcement`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        access_token: token,
+      },
+      body: JSON.stringify(payload),
+    });
+  };
+}
