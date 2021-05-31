@@ -8,6 +8,10 @@ export const SET_TOKEN_LOADING = "tokenLoading/setTokenLoading"
 export const SET_USER = "user/setUser"
 export const SET_USER_ERR = "userErr/setUserErr"
 export const SET_USER_LOADING = "userLoading/setUserLoading"
+export const ADD_CLASS = "addClass/setaddClass"
+export const ADD_CLASS_LOADING = "addClassLoading/setaddClassLoading"
+export const SET_ANNOUNCEMENT = "setAnnouncement/setAnnouncement"
+export const SET_ANNOUNCEMENT_LOADING = "setAnnouncementLoading/setAnnouncementLoading"
 
 export function setUser (payload) {
   return { type: SET_USER, payload }
@@ -22,7 +26,7 @@ export function setLecture (payload) {
 export function login (payload) {
   return function (dispatch) {
     dispatch({ type: SET_TOKEN_LOADING, payload: true })
-    return fetch('http://localhost:3000/login', {
+    return fetch('http://192.168.1.108:19000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -35,7 +39,7 @@ export function login (payload) {
 export function fetchUser (id, token) {
   return function (dispatch) {
     dispatch({ type: SET_USER_LOADING, payload: true })
-    fetch('http://localhost:3000/users/' + id, {
+    fetch('http://192.168.1.108:19000/users/' + id, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -57,7 +61,7 @@ export function editUser (payload, token) {
   return function (dispatch) {
     console.log(payload.id, payload);
     dispatch({ type: SET_USER_LOADING, payload: true })
-    fetch('http://localhost:3000/users/edit?id=' + (+payload.id), {
+    fetch('http://192.168.1.108:19000/users/edit?id=' + (+payload.id), {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +82,7 @@ export function editUser (payload, token) {
 
 export function sendPayment (payload, token, id) {
   return function (dispatch) {
-    return fetch(`http://localhost:3000/users/${+id}/genDuitkuLink`, {
+    return fetch(`http://192.168.1.108:19000/users/${+id}/genDuitkuLink`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +96,7 @@ export function sendPayment (payload, token, id) {
 export function fetchLecture (token) {
   return function (dispatch) {
     dispatch({ type: SET_LECTURE_LOADING, payload: true })
-    fetch('http://localhost:3000/lectures/', {
+    fetch('http://192.168.1.108:19000/lectures/', {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -106,6 +110,48 @@ export function fetchLecture (token) {
       .catch(err => console.log(err))
       .finally(() => {
         dispatch({ type: SET_LECTURE_LOADING, payload: false })
+      })
+  }
+}
+
+export function fetchAnnouncement(token) {
+  console.log('masul lecture', token)
+  return function (dispatch){
+    fetch('http://192.168.1.108:19000/announcement/', {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': token
+      }
+    })
+    .then(res => res.json())
+    .then(lecture => {
+      console.log(lecture)
+      dispatch({ type: SET_ANNOUNCEMENT, payload: lecture })
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: false })
+    })
+  }
+}
+
+export function addKRS (payload, token) {
+  return function (dispatch){
+    fetch('http://192.168.1.108:19000/classes/', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': token
+      }
+    })
+    .then(res => res.json())
+      .then(lecture => {
+        dispatch({ type: ADD_CLASS, payload: lecture })
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        dispatch({ type: ADD_CLASS_LOADING, payload: false })
       })
   }
 }

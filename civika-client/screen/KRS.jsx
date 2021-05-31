@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { Button } from "native-base";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CardKRS from "../components/CardKRS";
+import { addKRS } from "../store/action";
 
-export default function ScreenKRS() {
+export default function ScreenKRS({navigation}) {
+  const dispatch = useDispatch();
   const [inputKRS, setInputKRS] = useState([]);
   const allLecture = useSelector((state) => state.allLecture);
   function submitKRS() {
     console.log(inputKRS);
+    // dispatch(addKRS(inputKRS));
+    navigation.navigate("BottomTabHome");
   }
   return (
     <ScrollView>

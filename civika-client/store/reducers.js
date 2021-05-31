@@ -8,7 +8,11 @@ import {
   SET_TOKEN_ERR,
   SET_TOKEN_LOADING,
   SET_LECTURE_ERR,
-  SET_LECTURE_LOADING
+  SET_LECTURE_LOADING,
+  ADD_CLASS,
+  ADD_CLASS_LOADING,
+  SET_ANNOUNCEMENT,
+  SET_ANNOUNCEMENT_LOADING
  } from "./action"
 
 const initialState = {
@@ -47,7 +51,7 @@ const initialState = {
     },
   ],
   dataUser: {
-    fullName: "Muhamad Riski Putra Awali",
+    fullName: "Mulki Marwan Adam",
     address:
       "Jl. A. Yani, Surabaya, Jawa Timur, Indonesia, Bumi, Galaksi Bima Sakti",
     role: "teacher",
@@ -56,6 +60,7 @@ const initialState = {
     ipk: 3.23,
     uktStatus: false,
     email: "test@mail.com",
+    role: "student"
   },
   allLecture: [
     {
@@ -83,6 +88,7 @@ const initialState = {
       time: "10.00",
     },
   ],
+  notification: [],
   addClass: [],
   students: [],
   userErr: false,
@@ -92,13 +98,17 @@ const initialState = {
   tokenErr: false,
   lectureLoading: false,
   lectureErr: false,
-};
+}
 
 export default function reducers(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
     case "student/addClass":
+      return { ...state, addClass: state.addClass.concat(payload) };
+    case SET_ANNOUNCEMENT:
+      return { ...state, addClass: state.addClass.concat(payload) };
+    case SET_ANNOUNCEMENT_LOADING:
       return { ...state, addClass: state.addClass.concat(payload) };
     case SET_USER:
       return { ...state, dataUser: payload };

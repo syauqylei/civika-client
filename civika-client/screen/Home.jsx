@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Container } from "native-base";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import PersonalDataHome from "../components/PersonalDataHome";
 import StudentMenu from "../components/StudentMenu";
 import TeacherMenu from "../components/TeacherMenu";
@@ -18,17 +18,38 @@ export default function HomeScreen({ navigation }) {
     dispatch(fetchLecture(token))
   }, [])
 
-  return (
-    <Container style={{ backgroundColor: "#f9f7f7" }}>
-      <PersonalDataHome data={allLecture} />
-      <View style={{ flex: 1 }}>
-        {dataUser.role === "student" ? (
-          <StudentMenu navigation={navigation} />
-        ) : (
-          <TeacherMenu navigation={navigation} />
-        )}
-        <BannerDeckSwiper />
-      </View>
-    </Container>
-  );
+  if (allLecture.length === 0 ) {
+    //ini untuk rendering jikaa tidak ada matkul yang diambil
+    return (
+      <Container style={{ backgroundColor: "#f9f7f7" }}>
+        <View>
+          <Text>
+            Anda Belum mengambil
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          {dataUser.role === "student" ? (
+            <StudentMenu navigation={navigation} />
+          ) : (
+            <TeacherMenu navigation={navigation} />
+          )}
+          <BannerDeckSwiper />
+        </View>
+      </Container>
+    );
+  } else {
+    return (
+      <Container style={{ backgroundColor: "#f9f7f7" }}>
+        <PersonalDataHome data={allLecture} />
+        <View style={{ flex: 1 }}>
+          {dataUser.role === "student" ? (
+            <StudentMenu navigation={navigation} />
+          ) : (
+            <TeacherMenu navigation={navigation} />
+          )}
+          <BannerDeckSwiper />
+        </View>
+      </Container>
+    );
+  }
 }
