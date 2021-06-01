@@ -13,7 +13,6 @@ import {
   SET_LECTURE_ERR,
   SET_LECTURE_LOADING,
   SET_CLASS,
-  SET_ANNOUNCEMENT,
 } from "./action";
 
 const initialState = {
@@ -46,10 +45,6 @@ const initialState = {
       name: "Maybank Virtual Account",
       value: "VA",
     },
-    {
-      name: "OVO",
-      value: "OV",
-    },
   ],
   dataUser: {},
   allLecture: [],
@@ -65,6 +60,7 @@ const initialState = {
   lectureErr: false,
   announcements: [],
   announcementsLoading: false,
+  expoPushToken: "",
 };
 
 export default function reducers(state = initialState, action) {
@@ -90,7 +86,7 @@ export default function reducers(state = initialState, action) {
     case SET_LECTURE:
       return {
         ...state,
-        allLecture: payload.map((lecture) => lecture.Lecture),
+        allLecture: payload,
       };
     case SET_LECTURE_LOADING:
       return { ...state, lectureLoading: payload };

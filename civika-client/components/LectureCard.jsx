@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Dimensions } from "react-native";
+import React from "react";
+import { View, Text, Dimensions, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 const { width } = Dimensions.get("screen");
-export default function LectureCard({ item, user }) {
-  const [card, setCard] = useState("Dosen");
-  const [name, setName] = useState("");
-  useEffect(() => {
-    if (item.role === "Dosen") {
-      setCard("");
-      setName("");
-    } else {
-      setCard("Dosen");
-      setName(item.dosen);
-    }
-  }, []);
+export default function LectureCard({ item }) {
+  const dataUser = useSelector((state) => state.dataUser);
 
   return (
     <View
@@ -48,16 +39,7 @@ export default function LectureCard({ item, user }) {
           }}
         >
           <View style={{ flex: 1 }}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 20,
-                alignSelf: "center",
-                color: "#3f72af",
-              }}
-            >
-              SKS
-            </Text>
+            <Text style={styles.info}>SKS</Text>
             <Text
               style={{
                 alignSelf: "center",
@@ -69,16 +51,7 @@ export default function LectureCard({ item, user }) {
             </Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 20,
-                alignSelf: "center",
-                color: "#3f72af",
-              }}
-            >
-              Waktu
-            </Text>
+            <Text style={styles.info}>Waktu</Text>
             <Text
               style={{
                 alignSelf: "center",
@@ -89,31 +62,40 @@ export default function LectureCard({ item, user }) {
               {/* Data jam kuliah */}
             </Text>
           </View>
-          <View style={{ flex: 1 }}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 20,
-                alignSelf: "center",
-                color: "#3f72af",
-              }}
-            >
-              {/* New parts*/}
-              {card}
-              {/* New parts*/}
-            </Text>
-            <Text
-              style={{
-                alignSelf: "center",
-                marginTop: 8,
-                textAlign: "center",
-              }}
-            >
-              {item.dosen}
-            </Text>
-          </View>
+          {dataUser.role === "student" ? (
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  alignSelf: "center",
+                  color: "#3f72af",
+                }}
+              >
+                Dosen
+              </Text>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  marginTop: 8,
+                  textAlign: "center",
+                }}
+              >
+                Andi Javier
+              </Text>
+            </View>
+          ) : null}
         </View>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  info: {
+    fontWeight: "bold",
+    fontSize: 20,
+    alignSelf: "center",
+    color: "#3f72af",
+  },
+});

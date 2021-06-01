@@ -41,7 +41,7 @@ export default function StudentsClassScreen({ route }) {
               </Text>
             </CardItem>
           </Card>
-          {students.map((student, i) => {
+          {students?.map((student, i) => {
             return (
               <Card key={i} style={{ flexDirection: "row" }}>
                 <CardItem style={{ flex: 1, backgroundColor: "#dbe2ef" }}>

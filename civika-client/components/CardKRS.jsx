@@ -10,7 +10,7 @@ export default function CardKRS({ lecture, setInputKRS }) {
       setInputKRS((krs) => krs.concat(lecture.id));
     }
     if (isChecked) {
-      setInputKRS((allKRS) => allKRS.filter((krs) => krs.id !== lecture.id));
+      setInputKRS((allKRS) => allKRS.filter((krs) => krs !== lecture.id));
     }
   }
 

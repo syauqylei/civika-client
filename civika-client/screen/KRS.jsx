@@ -3,23 +3,31 @@ import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { Button } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 import CardKRS from "../components/CardKRS";
-import { addKRS, fetchKRS } from "../store/action";
+import { addKRS, fetchKRS, fetchLecture } from "../store/action";
 
-export default function ScreenKRS({navigation}) {
+export default function ScreenKRS({ navigation }) {
   const dispatch = useDispatch();
   const [inputKRS, setInputKRS] = useState([]);
+  const dataUser = useSelector((state) => state.dataUser);
   const classes = useSelector((state) => state.remainingClass);
   const token = useSelector((state) => state.access_token);
-  
+
   function submitKRS() {
-    dispatch(addKRS(inputKRS, token));
-    navigation.navigate("Beranda-Stack");
+    dispatch(addKRS(inputKRS, token))
+      .then((res) => {
+        return res.json();
+      })
+      .then(async () => {
+        await dispatch(fetchLecture(token, dataUser.role));
+        navigation.navigate("Beranda-Stack");
+      })
+      .catch((err) => console.log(err));
   }
-  
+
   useEffect(() => {
-    dispatch(fetchKRS(token))
-  }, [])
-  
+    dispatch(fetchKRS(token));
+  }, []);
+
   return (
     <ScrollView>
       <View style={{ flex: 1, marginHorizontal: 9 }}>
@@ -33,20 +41,20 @@ export default function ScreenKRS({navigation}) {
         <Button
           primary
           style={{ alignSelf: "center", marginVertical: 13 }}
-          onPress={submitKRS}
+          onPress={() => submitKRS()}
         >
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: "200",
-              color: "#dbe2ef",
-              marginHorizontal: 10,
-            }}
-          >
-            Ambil KRS
-          </Text>
+          <Text style={styles.button}>Ambil KRS</Text>
         </Button>
       </View>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    fontSize: 18,
+    fontWeight: "200",
+    color: "#dbe2ef",
+    marginHorizontal: 10,
+  },
+});

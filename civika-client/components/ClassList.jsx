@@ -13,12 +13,12 @@ export default function ClassList({ navigation, lecture }) {
     dispatch(getClassStudents(lecture.id, token))
       .then((r) => r.json())
       .then((result) => {
-        console.log(result);
-        const students = result.map((el) =>
-          el.User.role === "student" ? el.User : null
-        );
-        console.log(students);
-        setListStudents(students);
+        if (result.length) {
+          const students = result.map((el) =>
+            el.User.role === "student" ? el.User : null
+          );
+          setListStudents(students);
+        }
       })
       .catch((err) => console.log(err));
   }, []);

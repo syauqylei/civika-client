@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ScrollView, Platform, StatusBar } from "react-native";
 import {
   Container,
@@ -10,23 +10,35 @@ import {
   Label,
   Button,
 } from "native-base";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   login,
   SET_TOKEN_LOADING,
   fetchUser,
   SET_TOKEN_ERR,
   setToken,
+  fetchLecture,
+  setUser,
 } from "../store/action";
+import usePushToken from "../hooks/usePushToken";
 
 export default function Login({ navigation }) {
+  const { expoPushToken } = usePushToken();
   const dispatch = useDispatch();
-  const expoPushToken = useSelector((state) => state.expoPushToken);
   const [dataLogin, setDataLogin] = useState({
+    // email: "putra.awali@hacktivmail.com",
+    // password: "password234",
+
     email: "andi.utomo@hacktivmail.com",
     password: "password678",
-    pushToken: expoPushToken,
+    pushToken: "",
   });
+
+  useEffect(() => {
+    if (expoPushToken) {
+      setDataLogin((state) => ({ ...state, pushToken: expoPushToken }));
+    }
+  }, [expoPushToken]);
 
   function checkEmail(email) {
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -41,7 +53,8 @@ export default function Login({ navigation }) {
         .then((res) => res.json())
         .then((res) => {
           dispatch(setToken(res.access_token));
-          dispatch(fetchUser(res.userId, res.access_token));
+          dispatch(fetchLecture(res.access_token, res.foundUser.role));
+          dispatch(setUser(res.foundUser));
           navigation.navigate("BottomTabHome");
         })
         .catch((err) => dispatch({ type: SET_TOKEN_ERR, payload: err }))
@@ -57,9 +70,10 @@ export default function Login({ navigation }) {
     <ScrollView
       style={{
         marginTop: Platform.OS === "android" ? StatusBar.currentHeight : null,
+        backgroundColor: "#f9f7f7",
       }}
     >
-      <Container style={{ backgroundColor: "#f9f7f7" }}>
+      <Container style={{ backgroundColor: "#f9f7f7", flex: 1 }}>
         <Content contentContainerStyle={{ justifyContent: "center", flex: 1 }}>
           <Image
             source={require("../assets/CIVIKA.png")}

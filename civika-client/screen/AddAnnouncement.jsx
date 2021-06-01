@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addAnnouncement,
   fetchAnnouncement,
+  fetchAnnouncementTeacher,
   SET_ANNOUNCEMENT,
   SET_ANNOUNCEMENT_LOADING,
 } from "../store/action";
@@ -95,11 +96,11 @@ export default function AddAnnouncement({ navigation }) {
                 dispatch(addAnnouncement(payload, token))
                   .then((r) => r.json())
                   .then((r) => {
-                    dispatch(fetchAnnouncement(token))
-                      .then((r) => r.json())
-                      .then((r) => {
+                    dispatch(fetchAnnouncementTeacher(token))
+                      .then((response) => response.json())
+                      .then((result) => {
+                        dispatch({ type: SET_ANNOUNCEMENT, payload: result });
                         navigation.navigate("Announcement-Stack");
-                        dispatch({ type: SET_ANNOUNCEMENT, payload: r });
                       })
                       .catch(console.log)
                       .finally(() => {

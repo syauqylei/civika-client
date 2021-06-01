@@ -23,14 +23,16 @@ export default function AnnouncementList(props) {
           <Text style={{ fontWeight: "bold" }}>{props.announcement.title}</Text>
           <Text>{props.announcement.teacher}</Text>
         </View>
-        <Button
-          transparent={true}
-          onPress={() => {
-            dispatch(deleteAnnouncementById(props.announcement.id, token));
-          }}
-        >
-          <Icon name="close" type="AntDesign" style={{ color: "black" }} />
-        </Button>
+        {props.dataUser.role === "teacher" ? (
+          <Button
+            transparent={true}
+            onPress={() => {
+              dispatch(deleteAnnouncementById(props.announcement.id, token));
+            }}
+          >
+            <Icon name="close" type="AntDesign" style={{ color: "black" }} />
+          </Button>
+        ) : null}
       </CardItem>
       <CardItem
         style={{

@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation }) {
   const token = useSelector((state) => state.access_token);
 
   useEffect(() => {
-    dispatch(fetchLecture(token, dataUser));
+    dispatch(fetchLecture(token, dataUser.role));
   }, []);
 
   return (

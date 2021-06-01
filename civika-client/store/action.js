@@ -13,9 +13,6 @@ export const SET_USER = "user/setUser";
 export const SET_USER_ERR = "userErr/setUserErr";
 export const SET_USER_LOADING = "userLoading/setUserLoading";
 export const SET_CLASS = "class/setClass";
-export const SET_ANNOUNCEMENT = "setAnnouncement/setAnnouncement";
-export const SET_ANNOUNCEMENT_LOADING =
-  "setAnnouncementLoading/setAnnouncementLoading";
 
 export function setUser(payload) {
   return { type: SET_USER, payload };
@@ -63,29 +60,20 @@ export function fetchUser(id, token) {
 
 export function editUser(payload, token) {
   return function (dispatch) {
-    console.log(payload.id, payload);
     dispatch({ type: SET_USER_LOADING, payload: true });
-    fetch(`${SERVER_URL}/users/edit?id=` + +payload.id, {
+    return fetch(`${SERVER_URL}/users/edit?id=` + +payload.id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         access_token: token,
       },
       body: JSON.stringify(payload),
-    })
-      .then((res) => res.json())
-      .then((user) => {
-        dispatch(fetchUser(payload.id, token));
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        dispatch({ type: SET_USER_LOADING, payload: false });
-      });
+    });
   };
 }
 
 export function sendPayment(payload, token, id) {
-  return function (dispatch) {
+  return function () {
     return fetch(`${SERVER_URL}/users/${+id}/genDuitkuLink`, {
       method: "POST",
       headers: {
@@ -97,9 +85,9 @@ export function sendPayment(payload, token, id) {
   };
 }
 
-export function fetchLecture(token, dataUser) {
+export function fetchLecture(access_token, dataUser) {
   let conditionUrl;
-  if (dataUser.role === "student") {
+  if (dataUser === "student") {
     conditionUrl = `${SERVER_URL}/class/`;
   } else {
     conditionUrl = `${SERVER_URL}/lectures/`;
@@ -111,7 +99,7 @@ export function fetchLecture(token, dataUser) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        access_token: token,
+        access_token,
       },
     })
       .then((res) => res.json())
@@ -126,7 +114,7 @@ export function fetchLecture(token, dataUser) {
 }
 
 export function getClassStudents(lectureId, token) {
-  return function (dispatch) {
+  return function () {
     return fetch(`${SERVER_URL}/class/lecture/${lectureId}`, {
       method: "GET",
       headers: {
@@ -148,7 +136,7 @@ export function deleteAnnouncementById(id, token) {
     })
       .then((response) => response.json())
       .then(() => {
-        dispatch(fetchAnnouncement(token));
+        dispatch(fetchAnnouncementTeacher(token));
       });
   };
 }
@@ -167,8 +155,8 @@ export function addAnnouncement(payload, token) {
 }
 
 export function fetchAnnouncement(token) {
-  dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: true });
   return function (dispatch) {
+    dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: true });
     return fetch(`${SERVER_URL}/announcement/`, {
       method: "GET",
       headers: {
@@ -187,21 +175,29 @@ export function fetchAnnouncement(token) {
   };
 }
 
-export function addKRS(payload, token) {
+export function fetchAnnouncementTeacher(token) {
   return function (dispatch) {
-    fetch(`${SERVER_URL}/classes/`, {
+    dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: true });
+    return fetch(`${SERVER_URL}/announcement/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        access_token: token,
+      },
+    });
+  };
+}
+
+export function addKRS(payload, token) {
+  return function () {
+    return fetch(`${SERVER_URL}/classes/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         access_token: token,
       },
-      body: JSON.stringify({ lectureId: payload }),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        dispatch(fetchLecture(token));
-      })
-      .catch((err) => console.log(err));
+      body: JSON.stringify({ LectureId: payload }),
+    });
   };
 }
 
@@ -216,9 +212,19 @@ export function fetchKRS(token) {
     })
       .then((res) => res.json())
       .then((classes) => {
-        // console.log(classes);
         dispatch({ type: SET_CLASS, payload: classes });
       })
       .catch((err) => console.log(err));
+  };
+}
+
+export function logoutUser(access_token) {
+  return function () {
+    return fetch(`${SERVER_URL}/logout`, {
+      headers: {
+        "Content-type": "application/json",
+        access_token,
+      },
+    });
   };
 }

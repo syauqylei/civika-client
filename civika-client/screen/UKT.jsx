@@ -11,17 +11,17 @@ import { useSelector, useDispatch } from "react-redux";
 import useRupiah from "../hooks/useRupiah";
 import { Label, Card, Button } from "native-base";
 import ModalPaymentUKT from "../components/ModalPaymentUKT";
-import { editUser, sendPayment } from "../store/action"
+import { editUser, sendPayment } from "../store/action";
 
 export default function ScreenUKT() {
   const actionSheetRef = createRef();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const studentData = useSelector((state) => state.dataUser);
   const dataPayment = useSelector((state) => state.paymentMethodList);
   const token = useSelector((state) => state.access_token);
   const { uktConverted } = useRupiah(studentData.ukt);
   const [paymentMethod, setPaymentMethod] = useState(undefined);
-  const [paymentUrl, setPaymentUrl] = useState(false)
+  const [paymentUrl, setPaymentUrl] = useState(false);
 
   function selectPaymentMethod(value) {
     setPaymentMethod(value);
@@ -34,23 +34,23 @@ export default function ScreenUKT() {
     );
     console.log(payment);
     dispatch(sendPayment(payment, token, studentData.id))
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "<<<<<<<<<<<<<<<<<<<<");
         setPaymentUrl(data.paymentUrl);
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   }
 
   function openUrl() {
-    Linking.canOpenURL(paymentUrl)
-      .then(supported => {
-        if (supported) {
-          Linking.openURL(paymentUrl);
-          dispatch(editUser({...studentData, uktStatus: true}, token))
-        } else {
-          console.log("Don't know how to open URI: ");
-        }
-      });
+    Linking.canOpenURL(paymentUrl).then((supported) => {
+      if (supported) {
+        Linking.openURL(paymentUrl);
+        dispatch(editUser({ ...studentData, uktStatus: true }, token));
+      } else {
+        console.log("Don't know how to open URI: ");
+      }
+    });
   }
 
   return (
@@ -94,26 +94,29 @@ export default function ScreenUKT() {
             dataPayment={dataPayment}
           />
         </Card>
-        { !paymentUrl? <Button style={styles.button} onPress={submitPaymentUKT}>
-          <Text
-            style={{
-              color: "#dbe2ef",
-              fontSize: 22,
-            }}
-          >
-            Pilih
-          </Text>
-        </Button> :
-        <Button style={styles.button} onPress={openUrl}>
-          <Text
-            style={{
-              color: "#dbe2ef",
-              fontSize: 22,
-            }}
-          >
-            Bayar
-          </Text>
-        </Button>}
+        {!paymentUrl ? (
+          <Button style={styles.button} onPress={submitPaymentUKT}>
+            <Text
+              style={{
+                color: "#dbe2ef",
+                fontSize: 22,
+              }}
+            >
+              Pilih
+            </Text>
+          </Button>
+        ) : (
+          <Button style={styles.button} onPress={openUrl}>
+            <Text
+              style={{
+                color: "#dbe2ef",
+                fontSize: 22,
+              }}
+            >
+              Bayar
+            </Text>
+          </Button>
+        )}
       </View>
     </View>
   );

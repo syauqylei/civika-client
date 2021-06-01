@@ -11,16 +11,38 @@ import {
   Button,
 } from "native-base";
 import { useSelector, useDispatch } from "react-redux";
-import { editUser, fetchUser } from "../store/action"
+import {
+  editUser,
+  fetchUser,
+  logoutUser,
+  SET_USER_LOADING,
+} from "../store/action";
 
-export default function ProfileScreen() {
-  const dispatch = useDispatch()
+export default function ProfileScreen({ navigation }) {
+  const dispatch = useDispatch();
   const dataProfile = useSelector((state) => state.dataUser);
   const token = useSelector((state) => state.access_token);
   const [input, setInput] = useState(dataProfile);
 
   function submitEdit() {
     dispatch(editUser(input, token))
+      .then((res) => res.json())
+      .then(() => {
+        dispatch(fetchUser(dataProfile.id, token));
+        navigation.navigate("Beranda-Stack");
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        dispatch({ type: SET_USER_LOADING, payload: false });
+      });
+  }
+
+  function logout() {
+    dispatch(logoutUser(token))
+      .then((response) => response.json())
+      .then(() => {
+        navigation.navigate("Login");
+      });
   }
 
   return (
@@ -28,7 +50,7 @@ export default function ProfileScreen() {
       <H1 style={{ margin: 5 }}>
         Profil {input.role === "student" ? "Mahasiswa" : "Dosen"}
       </H1>
-      <Content style={{ margin: 10 }}>
+      <Content style={{ marginTop: 10 }}>
         <Card style={styles.card}>
           <CardItem header style={styles.thumbnail}>
             <Thumbnail
@@ -95,6 +117,9 @@ export default function ProfileScreen() {
             </Button>
           </CardItem>
         </Card>
+        <Button style={styles.buttonLogout} onPress={logout}>
+          <Text style={{ color: "#fff", fontSize: 20 }}>Keluar</Text>
+        </Button>
       </Content>
     </Container>
   );
@@ -133,5 +158,13 @@ const styles = StyleSheet.create({
     width: 100,
     justifyContent: "center",
     borderRadius: 10,
+  },
+  buttonLogout: {
+    width: 300,
+    justifyContent: "center",
+    alignSelf: "center",
+    borderRadius: 30,
+    backgroundColor: "#B22222",
+    marginTop: 15,
   },
 });
