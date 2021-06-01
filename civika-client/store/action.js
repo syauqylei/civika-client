@@ -12,6 +12,10 @@ export const SET_TOKEN_LOADING = "tokenLoading/setTokenLoading";
 export const SET_USER = "user/setUser";
 export const SET_USER_ERR = "userErr/setUserErr";
 export const SET_USER_LOADING = "userLoading/setUserLoading";
+export const SET_CLASS = "class/setClass";
+export const SET_ANNOUNCEMENT = "setAnnouncement/setAnnouncement";
+export const SET_ANNOUNCEMENT_LOADING =
+  "setAnnouncementLoading/setAnnouncementLoading";
 
 export function setUser(payload) {
   return { type: SET_USER, payload };
@@ -93,10 +97,16 @@ export function sendPayment(payload, token, id) {
   };
 }
 
-export function fetchLecture(token) {
+export function fetchLecture(token, dataUser) {
+  let conditionUrl;
+  if (dataUser.role === "student") {
+    conditionUrl = `${SERVER_URL}/class/`;
+  } else {
+    conditionUrl = `${SERVER_URL}/lectures/`;
+  }
   return function (dispatch) {
     dispatch({ type: SET_LECTURE_LOADING, payload: true });
-    fetch(`${SERVER_URL}/lectures/`, {
+    fetch(conditionUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -114,17 +124,18 @@ export function fetchLecture(token) {
   };
 }
 
-export function fetchAnnouncement(token) {
-  return function (dispatch) {
-    return fetch(`${SERVER_URL}/announcement`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        access_token: token,
-      },
-    });
-  };
-}
+// export function fetchAnnouncement(token) {
+//   return function (dispatch) {
+//     return fetch(`${SERVER_URL}/announcement`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         access_token: token,
+//       },
+//     });
+//   };
+// }
+
 export function getClassStudents(lectureId, token) {
   return function (dispatch) {
     return fetch(`${SERVER_URL}/class/lecture/${lectureId}`, {
@@ -136,6 +147,7 @@ export function getClassStudents(lectureId, token) {
     });
   };
 }
+
 export function deleteAnnouncementById(id, token) {
   return function (dispatch) {
     fetch(`${SERVER_URL}/announcement/${id}`, {
@@ -159,6 +171,7 @@ export function deleteAnnouncementById(id, token) {
       });
   };
 }
+
 export function addAnnouncement(payload, token) {
   return function (dispatch) {
     return fetch(`${SERVER_URL}/announcement`, {
@@ -169,5 +182,66 @@ export function addAnnouncement(payload, token) {
       },
       body: JSON.stringify(payload),
     });
+  };
+}
+
+export function fetchAnnouncement(token) {
+  dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: true });
+  return function (dispatch) {
+    return fetch("http://localhost:3000/announcement/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        access_token: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data)
+        dispatch({ type: SET_ANNOUNCEMENT, payload: data });
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: false });
+      });
+  };
+}
+
+export function addKRS(payload, token) {
+  return function (dispatch) {
+    fetch("http://localhost:3000/classes/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        access_token: token,
+      },
+      body: JSON.stringify({ lectureId: payload }),
+    })
+      .then((res) => res.json())
+      .then((lecture) => {
+        dispatch(fetchLecture(token));
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        dispatch({ type: ADD_CLASS_LOADING, payload: false });
+      });
+  };
+}
+
+export function fetchKRS(token) {
+  return function (dispatch) {
+    fetch("http://localhost:3000/krs/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        access_token: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((classes) => {
+        // console.log(classes);
+        dispatch({ type: SET_CLASS, payload: classes });
+      })
+      .catch((err) => console.log(err));
   };
 }

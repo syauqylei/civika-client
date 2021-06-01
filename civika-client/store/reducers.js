@@ -12,6 +12,8 @@ import {
   SET_TOKEN_LOADING,
   SET_LECTURE_ERR,
   SET_LECTURE_LOADING,
+  SET_CLASS,
+  SET_ANNOUNCEMENT,
 } from "./action";
 
 const initialState = {
@@ -50,33 +52,8 @@ const initialState = {
     },
   ],
   dataUser: {},
-  allLecture: [
-    {
-      id: 1,
-      lecture: "Giring bola",
-      sks: 2,
-      time: "10.00",
-    },
-    {
-      id: 2,
-      lecture: "Terbang",
-      sks: 3,
-      time: "08.00",
-    },
-    {
-      id: 3,
-      lecture: "Cetak gol",
-      sks: 5,
-      time: "10.00",
-    },
-    {
-      id: 4,
-      lecture: "Passing",
-      sks: 5,
-      time: "10.00",
-    },
-  ],
-  expoPushToken: {},
+  allLecture: [],
+  remainingClass: [],
   addClass: [],
   students: [],
   userErr: false,
@@ -94,8 +71,8 @@ export default function reducers(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case "student/addClass":
-      return { ...state, addClass: state.addClass.concat(payload) };
+    case SET_ANNOUNCEMENT:
+      return { ...state, announcements: payload };
     case SET_USER:
       return { ...state, dataUser: payload };
     case SET_USER_ERR:
@@ -108,16 +85,19 @@ export default function reducers(state = initialState, action) {
       return { ...state, tokenErr: payload };
     case SET_TOKEN_LOADING:
       return { ...state, tokenLoading: payload };
+    case SET_CLASS:
+      return { ...state, remainingClass: payload };
     case SET_LECTURE:
-      return { ...state, allLecture: payload };
+      return {
+        ...state,
+        allLecture: payload.map((lecture) => lecture.Lecture),
+      };
     case SET_LECTURE_LOADING:
       return { ...state, lectureLoading: payload };
     case SET_LECTURE_ERR:
       return { ...state, lectureErr: payload };
     case SET_STUDENTS:
       return { ...state, students: payload };
-    case SET_ANNOUNCEMENT:
-      return { ...state, announcements: payload };
     case SET_ANNOUNCEMENT_LOADING:
       return { ...state, announcementsLoading: payload };
     case SET_EXPO_PUSH_TOKEN:

@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { Button } from "native-base";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CardKRS from "../components/CardKRS";
+import { addKRS, fetchKRS } from "../store/action";
 
-export default function ScreenKRS() {
+export default function ScreenKRS({navigation}) {
+  const dispatch = useDispatch();
   const [inputKRS, setInputKRS] = useState([]);
-  const allLecture = useSelector((state) => state.allLecture);
+  const classes = useSelector((state) => state.remainingClass);
+  const token = useSelector((state) => state.access_token);
+  
   function submitKRS() {
-    console.log(inputKRS);
+    dispatch(addKRS(inputKRS, token));
+    navigation.navigate("Beranda-Stack");
   }
+  
+  useEffect(() => {
+    dispatch(fetchKRS(token))
+  }, [])
+  
   return (
     <ScrollView>
       <View style={{ flex: 1, marginHorizontal: 9 }}>
-        {allLecture.map((lecture) => (
+        {classes.map((lecture) => (
           <CardKRS
             lecture={lecture}
             key={lecture.id}
