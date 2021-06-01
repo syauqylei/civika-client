@@ -1,14 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import LoginStackNavigator from "./navigator/LoginStackNavigator";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
-
 import { Provider } from "react-redux";
 import store from "./store";
+import { registerForPushNotificationsAsync } from "./helpers/notif";
+import * as Notifications from "expo-notifications";
+import { SET_EXPO_PUSH_TOKEN } from "./store/action";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 export default function App() {
   const [isReady, setIsReady] = useState(false);
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
   useEffect(() => {
     Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
@@ -17,6 +32,32 @@ export default function App() {
     }).then((_) => {
       setIsReady(true);
     });
+    registerForPushNotificationsAsync().then((token) => {
+      setExpoPushToken(token);
+    });
+
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
+
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(response);
+
+        // ini nanti mungkin bakal redirect ke halaman pengumuman biar kalo notif di pen
+      }
+    );
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
   }, []);
 
   if (!isReady) {
@@ -30,7 +71,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <LoginStackNavigator />
+        <LoginStackNavigator expoPushToken={expoPushToken} />
       </NavigationContainer>
     </Provider>
   );

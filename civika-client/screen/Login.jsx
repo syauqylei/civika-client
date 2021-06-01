@@ -10,7 +10,7 @@ import {
   Label,
   Button,
 } from "native-base";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   login,
   SET_TOKEN_LOADING,
@@ -21,9 +21,11 @@ import {
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
+  const expoPushToken = useSelector((state) => state.expoPushToken);
   const [dataLogin, setDataLogin] = useState({
     email: "andi.utomo@hacktivmail.com",
     password: "password678",
+    pushToken: expoPushToken,
   });
 
   function checkEmail(email) {

@@ -1,4 +1,5 @@
 const SERVER_URL = "http://192.168.1.15:3000";
+export const SET_EXPO_PUSH_TOKEN = "expoPushToken/setExpoPushToken";
 export const SET_ANNOUNCEMENT = "announcement/setAnnouncement";
 export const SET_ANNOUNCEMENT_LOADING = "announcement/setAnnouncementLoading";
 export const SET_STUDENTS = "students/setStudents";

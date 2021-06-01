@@ -1,4 +1,5 @@
 import {
+  SET_EXPO_PUSH_TOKEN,
   SET_ANNOUNCEMENT,
   SET_ANNOUNCEMENT_LOADING,
   SET_LECTURE,
@@ -75,6 +76,7 @@ const initialState = {
       time: "10.00",
     },
   ],
+  expoPushToken: {},
   addClass: [],
   students: [],
   userErr: false,
@@ -118,8 +120,9 @@ export default function reducers(state = initialState, action) {
       return { ...state, announcements: payload };
     case SET_ANNOUNCEMENT_LOADING:
       return { ...state, announcementsLoading: payload };
+    case SET_EXPO_PUSH_TOKEN:
+      return { ...state, expoPushToken: payload };
     default:
       return state;
   }
 }
-
