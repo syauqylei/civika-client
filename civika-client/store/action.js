@@ -1,4 +1,4 @@
-const SERVER_URL = "http://192.168.1.15:3000";
+const SERVER_URL = "http://localhost:3000";
 export const SET_EXPO_PUSH_TOKEN = "expoPushToken/setExpoPushToken";
 export const SET_ANNOUNCEMENT = "announcement/setAnnouncement";
 export const SET_ANNOUNCEMENT_LOADING = "announcement/setAnnouncementLoading";
@@ -104,6 +104,7 @@ export function fetchLecture(token, dataUser) {
   } else {
     conditionUrl = `${SERVER_URL}/lectures/`;
   }
+
   return function (dispatch) {
     dispatch({ type: SET_LECTURE_LOADING, payload: true });
     fetch(conditionUrl, {
@@ -123,18 +124,6 @@ export function fetchLecture(token, dataUser) {
       });
   };
 }
-
-// export function fetchAnnouncement(token) {
-//   return function (dispatch) {
-//     return fetch(`${SERVER_URL}/announcement`, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         access_token: token,
-//       },
-//     });
-//   };
-// }
 
 export function getClassStudents(lectureId, token) {
   return function (dispatch) {
@@ -157,23 +146,15 @@ export function deleteAnnouncementById(id, token) {
         access_token: token,
       },
     })
-      .then((r) => r.json())
-      .then((r) => {
-        dispatch(fetchAnnouncement(token))
-          .then((r) => r.json())
-          .then((r) => {
-            dispatch({ type: SET_ANNOUNCEMENT, payload: r });
-          })
-          .catch(console.log)
-          .finally(() => {
-            dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: true });
-          });
+      .then((response) => response.json())
+      .then(() => {
+        dispatch(fetchAnnouncement(token));
       });
   };
 }
 
 export function addAnnouncement(payload, token) {
-  return function (dispatch) {
+  return function () {
     return fetch(`${SERVER_URL}/announcement`, {
       method: "POST",
       headers: {
@@ -188,7 +169,7 @@ export function addAnnouncement(payload, token) {
 export function fetchAnnouncement(token) {
   dispatch({ type: SET_ANNOUNCEMENT_LOADING, payload: true });
   return function (dispatch) {
-    return fetch("http://localhost:3000/announcement/", {
+    return fetch(`${SERVER_URL}/announcement/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -197,7 +178,6 @@ export function fetchAnnouncement(token) {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data)
         dispatch({ type: SET_ANNOUNCEMENT, payload: data });
       })
       .catch((err) => console.log(err))
@@ -209,7 +189,7 @@ export function fetchAnnouncement(token) {
 
 export function addKRS(payload, token) {
   return function (dispatch) {
-    fetch("http://localhost:3000/classes/", {
+    fetch(`${SERVER_URL}/classes/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -218,19 +198,16 @@ export function addKRS(payload, token) {
       body: JSON.stringify({ lectureId: payload }),
     })
       .then((res) => res.json())
-      .then((lecture) => {
+      .then(() => {
         dispatch(fetchLecture(token));
       })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        dispatch({ type: ADD_CLASS_LOADING, payload: false });
-      });
+      .catch((err) => console.log(err));
   };
 }
 
 export function fetchKRS(token) {
   return function (dispatch) {
-    fetch("http://localhost:3000/krs/", {
+    fetch(`${SERVER_URL}/krs/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
