@@ -15,7 +15,7 @@ import { login, SET_TOKEN_LOADING, fetchUser, SET_TOKEN_ERR, setToken } from "..
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch()
-  const [dataLogin, setDataLogin] = useState({ email: "andi.utomo@hacktivmail.com", password: "password678" });
+  const [dataLogin, setDataLogin] = useState({ email: "budi.utomo@hacktivmail.com", password: "password123" });
 
   function checkEmail(email) {
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -30,7 +30,7 @@ export default function Login({ navigation }) {
         .then(res => res.json())
         .then(res => {
           dispatch(setToken(res.access_token))
-          dispatch(fetchUser(res.id, res.access_token))
+          dispatch(fetchUser(res.userId, res.access_token))
           navigation.navigate("BottomTabHome");
         })
         .catch(err => dispatch({ type: SET_TOKEN_ERR, payload: err }))

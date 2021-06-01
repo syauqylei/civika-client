@@ -7,7 +7,7 @@ export default function CardKRS({ lecture, setInputKRS }) {
   function addClass() {
     setIsChecked(!isChecked);
     if (!isChecked) {
-      setInputKRS((krs) => krs.concat(lecture));
+      setInputKRS((krs) => krs.concat(lecture.id));
     }
     if (isChecked) {
       setInputKRS((allKRS) => allKRS.filter((krs) => krs.id !== lecture.id));

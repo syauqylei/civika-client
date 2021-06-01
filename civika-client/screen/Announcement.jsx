@@ -20,7 +20,7 @@ export default function AnnouncementScreen({ navigation }) {
   const [update, setUpdate] = useState(0);
   const token = useSelector((state) => state.access_token);
   const dataUser = useSelector((state) => state.dataUser);
-  const message = useSelector((state) => state.notification);
+  const message = useSelector((state) => state.announcement);
   
 
   useEffect(() => {
@@ -29,13 +29,15 @@ export default function AnnouncementScreen({ navigation }) {
       realtimeUpdate()
     } else {
       console.log('masuk else')
-      dispatch(fetchAnnouncement(token))
       realtimeUpdate()
     }
+    dispatch(fetchAnnouncement(token))
   }, [update]);
 
+  console.log(message);
+
   function realtimeUpdate() {
-    db.collection("notification").onSnapshot((querySnapshot) => {
+    db.collection("announcement").onSnapshot((querySnapshot) => {
       setUpdate(querySnapshot.docChanges().length)
       querySnapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
@@ -61,10 +63,9 @@ export default function AnnouncementScreen({ navigation }) {
     >
       <H1 style={{ margin: 5 }}> Pengumuman </H1>
       <Content style={{ margin: 10 }}>
-        {message.map((data, i) => {
-          return <AnnouncementList key={i} message={data} />;
+        { message.map((data, i) => {
+          return <AnnouncementList key={i} message={data} />
         })}
-        {/* <AnnouncementList /> */}
       </Content>
       {dataUser.role === "teacher" ? (
         <Button

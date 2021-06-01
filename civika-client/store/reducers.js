@@ -9,10 +9,8 @@ import {
   SET_TOKEN_LOADING,
   SET_LECTURE_ERR,
   SET_LECTURE_LOADING,
-  ADD_CLASS,
-  ADD_CLASS_LOADING,
+  SET_CLASS,
   SET_ANNOUNCEMENT,
-  SET_ANNOUNCEMENT_LOADING
  } from "./action"
 
 const initialState = {
@@ -62,33 +60,8 @@ const initialState = {
     email: "test@mail.com",
     role: "student"
   },
-  allLecture: [
-    {
-      id: 1,
-      lecture: "Giring bola",
-      sks: 2,
-      time: "10.00",
-    },
-    {
-      id: 2,
-      lecture: "Terbang",
-      sks: 3,
-      time: "08.00",
-    },
-    {
-      id: 3,
-      lecture: "Cetak gol",
-      sks: 5,
-      time: "10.00",
-    },
-    {
-      id: 4,
-      lecture: "Passing",
-      sks: 5,
-      time: "10.00",
-    },
-  ],
-  notification: [],
+  allLecture: [],
+  remainingClass: [],
   addClass: [],
   students: [],
   userErr: false,
@@ -98,18 +71,15 @@ const initialState = {
   tokenErr: false,
   lectureLoading: false,
   lectureErr: false,
+  announcement: []
 }
 
 export default function reducers(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case "student/addClass":
-      return { ...state, addClass: state.addClass.concat(payload) };
     case SET_ANNOUNCEMENT:
-      return { ...state, addClass: state.addClass.concat(payload) };
-    case SET_ANNOUNCEMENT_LOADING:
-      return { ...state, addClass: state.addClass.concat(payload) };
+      return { ...state, announcement: payload };
     case SET_USER:
       return { ...state, dataUser: payload };
     case SET_USER_ERR:
@@ -122,8 +92,10 @@ export default function reducers(state = initialState, action) {
       return { ...state, tokenErr: payload };
     case SET_TOKEN_LOADING:
       return { ...state, tokenLoading: payload };
+    case SET_CLASS:
+      return { ...state, remainingClass: payload };
     case SET_LECTURE:
-      return { ...state, allLecture: payload };
+      return { ...state, allLecture: payload.map(lecture => lecture.Lecture) };
     case SET_LECTURE_LOADING:
       return { ...state, lectureLoading: payload };
     case SET_LECTURE_ERR:
