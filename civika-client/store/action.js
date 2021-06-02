@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:3000";
+const SERVER_URL = "http://54.179.1.235:3000";
 export const SET_EXPO_PUSH_TOKEN = "expoPushToken/setExpoPushToken";
 export const SET_ANNOUNCEMENT = "announcement/setAnnouncement";
 export const SET_ANNOUNCEMENT_LOADING = "announcement/setAnnouncementLoading";

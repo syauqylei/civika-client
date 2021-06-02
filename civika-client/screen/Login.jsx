@@ -31,13 +31,13 @@ export default function Login({ navigation }) {
   const { expoPushToken } = usePushToken();
   const dispatch = useDispatch();
   const [dataLogin, setDataLogin] = useState({
-    email: "fauzan.hilmy@hacktivmail.com",
-    password: "password345",
+    // email: "fauzan.hilmy@hacktivmail.com",
+    // password: "password345",
     // email: "",
     // password: "",
 
-    // email: "andi.utomo@hacktivmail.com",
-    // password: "password678",
+    email: "andi.utomo@hacktivmail.com",
+    password: "password678",
     pushToken: "",
   });
   const [validation, setValidation] = useState({
