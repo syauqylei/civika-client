@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, Platform, StatusBar, TextInput } from "react-native";
+import React, { useState } from "react";
+import {
+  Text,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  TextInput,
+  ToastAndroid,
+} from "react-native";
 import {
   Container,
   Card,
@@ -24,10 +31,15 @@ export default function ProfileScreen({ navigation }) {
   const token = useSelector((state) => state.access_token);
   const [input, setInput] = useState(dataProfile);
 
+  const showSuccessAction = (message) => {
+    ToastAndroid.showWithGravity(message, ToastAndroid.SHORT, ToastAndroid.TOP);
+  };
+
   function submitEdit() {
     dispatch(editUser(input, token))
       .then((res) => res.json())
-      .then(() => {
+      .then((res) => {
+        showSuccessAction(res.message);
         dispatch(fetchUser(dataProfile.id, token));
         navigation.navigate("Beranda-Stack");
       })
@@ -41,6 +53,7 @@ export default function ProfileScreen({ navigation }) {
     dispatch(logoutUser(token))
       .then((response) => response.json())
       .then(() => {
+        showSuccessAction("Sampai jumpa lagi");
         navigation.navigate("Login");
       });
   }
@@ -67,21 +80,21 @@ export default function ProfileScreen({ navigation }) {
               flexDirection: "column",
             }}
           >
-            <Body style={{ marginVertical: 5, marginHorizontal: 15 }}>
+            <Body style={styles.dataProfile}>
               <Text style={styles.text}>Nama:</Text>
               <Text style={styles.text}>{input.fullName}</Text>
             </Body>
-            <Body style={{ marginVertical: 5, marginHorizontal: 15 }}>
+            <Body style={styles.dataProfile}>
               <Text style={styles.text}>Email:</Text>
               <Text style={styles.text}>{input.email}</Text>
             </Body>
-            <Body style={{ marginVertical: 5, marginHorizontal: 15 }}>
-              <Text style={styles.text}>Role:</Text>
+            <Body style={styles.dataProfile}>
+              <Text style={styles.text}>Status:</Text>
               <Text style={styles.text}>
                 {input.role === "student" ? "Mahasiswa" : "Dosen"}
               </Text>
             </Body>
-            <Body style={{ marginVertical: 5, marginHorizontal: 15 }}>
+            <Body style={styles.dataProfile}>
               <Text style={styles.text}>Alamat:</Text>
               <TextInput
                 multiline={true}
@@ -92,7 +105,7 @@ export default function ProfileScreen({ navigation }) {
                 value={input.address}
               />
             </Body>
-            <Body style={{ marginVertical: 5, marginHorizontal: 15 }}>
+            <Body style={styles.dataProfile}>
               <Text style={styles.text}>Nomor Telepon: </Text>
               <TextInput
                 keyboardType="numeric"
@@ -139,6 +152,7 @@ const styles = StyleSheet.create({
     borderColor: "#3f72af",
     backgroundColor: "white",
     borderRadius: 10,
+    textAlign: "center",
   },
   container: {
     flex: 1,
@@ -152,7 +166,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#dbe2ef",
     justifyContent: "center",
   },
-  text: { fontSize: 15 },
+  text: { fontSize: 15, marginTop: 4 },
   button: {
     backgroundColor: "#3f72af",
     width: 100,
@@ -166,5 +180,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "#B22222",
     marginTop: 15,
+  },
+  dataProfile: {
+    marginVertical: 5,
+    marginHorizontal: 15,
+    alignItems: "center",
   },
 });

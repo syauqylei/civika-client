@@ -53,5 +53,6 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     width: 60,
     justifyContent: "center",
+    borderRadius: 10,
   },
 });

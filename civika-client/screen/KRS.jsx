@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import { View, StyleSheet, Text, ScrollView, ToastAndroid } from "react-native";
 import { Button } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 import CardKRS from "../components/CardKRS";
@@ -12,13 +12,16 @@ export default function ScreenKRS({ navigation }) {
   const classes = useSelector((state) => state.remainingClass);
   const token = useSelector((state) => state.access_token);
 
+  const showSuccessAddKRS = (message) => {
+    ToastAndroid.showWithGravity(message, ToastAndroid.SHORT, ToastAndroid.TOP);
+  };
+
   function submitKRS() {
     dispatch(addKRS(inputKRS, token))
-      .then((res) => {
-        return res.json();
-      })
-      .then(async () => {
+      .then((res) => res.json())
+      .then(async (res) => {
         await dispatch(fetchLecture(token, dataUser.role));
+        showSuccessAddKRS(res.message);
         navigation.navigate("Beranda-Stack");
       })
       .catch((err) => console.log(err));

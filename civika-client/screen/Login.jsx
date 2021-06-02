@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, Platform, StatusBar } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Platform,
+  StatusBar,
+  ToastAndroid,
+} from "react-native";
 import {
   Container,
   Text,
@@ -14,7 +20,6 @@ import { useDispatch } from "react-redux";
 import {
   login,
   SET_TOKEN_LOADING,
-  fetchUser,
   SET_TOKEN_ERR,
   setToken,
   fetchLecture,
@@ -28,11 +33,21 @@ export default function Login({ navigation }) {
   const [dataLogin, setDataLogin] = useState({
     // email: "putra.awali@hacktivmail.com",
     // password: "password234",
+    // email: "",
+    // password: "",
 
     email: "andi.utomo@hacktivmail.com",
     password: "password678",
     pushToken: "",
   });
+  const [validation, setValidation] = useState({
+    email: false,
+    password: false,
+  });
+
+  const showSuccessLoginToast = (message) => {
+    ToastAndroid.showWithGravity(message, ToastAndroid.SHORT, ToastAndroid.TOP);
+  };
 
   useEffect(() => {
     if (expoPushToken) {
@@ -48,21 +63,33 @@ export default function Login({ navigation }) {
 
   function submitLogin() {
     const isEmail = checkEmail(dataLogin.email);
-    if (isEmail) {
+    if (isEmail && dataLogin.password) {
       dispatch(login(dataLogin))
         .then((res) => res.json())
         .then((res) => {
-          dispatch(setToken(res.access_token));
-          dispatch(fetchLecture(res.access_token, res.foundUser.role));
-          dispatch(setUser(res.foundUser));
-          navigation.navigate("BottomTabHome");
+          if (res.message) {
+            showSuccessLoginToast(res.message);
+          } else {
+            showSuccessLoginToast("Berhasil masuk");
+            dispatch(setToken(res.access_token));
+            dispatch(fetchLecture(res.access_token, res.foundUser.role));
+            dispatch(setUser(res.foundUser));
+            navigation.navigate("BottomTabHome");
+          }
         })
-        .catch((err) => dispatch({ type: SET_TOKEN_ERR, payload: err }))
+        .catch((err) => {
+          dispatch({ type: SET_TOKEN_ERR, payload: err });
+        })
         .finally(() => {
           dispatch({ type: SET_TOKEN_LOADING, payload: false });
         });
+    } else if (isEmail && !dataLogin.password) {
+      setValidation((state) => ({ ...state, password: true }));
+    } else if (!isEmail && dataLogin.password) {
+      console.log(isEmail);
+      setValidation((state) => ({ ...state, email: true }));
     } else {
-      console.log(isEmail, "dari else");
+      setValidation((state) => ({ ...state, email: true, password: true }));
     }
   }
 
@@ -101,6 +128,18 @@ export default function Login({ navigation }) {
                 style={{ textAlign: "center" }}
               />
             </Item>
+            {validation.email ? (
+              <Text
+                style={{
+                  color: "red",
+                  alignSelf: "center",
+                  fontSize: 11,
+                  marginTop: 3,
+                }}
+              >
+                Masukan email dengan format email!
+              </Text>
+            ) : null}
             <Item
               floatingLabel
               last
@@ -121,6 +160,18 @@ export default function Login({ navigation }) {
                 style={{ textAlign: "center" }}
               />
             </Item>
+            {validation.email ? (
+              <Text
+                style={{
+                  color: "red",
+                  alignSelf: "center",
+                  fontSize: 11,
+                  marginTop: 3,
+                }}
+              >
+                Password tidak boleh kosong!
+              </Text>
+            ) : null}
             <Button
               rounded
               style={{
