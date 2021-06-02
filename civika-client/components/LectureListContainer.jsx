@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { FlatList, Text } from "react-native";
 import LectureCard from "./LectureCard";
 export default function LectureListContainer({ data, user }) {
-  // const [dataLecture, setDataLecture] = useState([]);
   let dataLecture = [];
-  if (user.role === "student") {
+  if (user.role === "student" && !data.message) {
     data.forEach((lecture) => dataLecture.push(lecture.Lecture));
-  } else {
+  } else if (user.role === "teacher" && !data.message) {
     data.forEach((lecture) => dataLecture.push(lecture));
   }
   return (
     <>
-      {!data.length ? (
+      {!dataLecture.length ? (
         <Text
           style={{
             color: "white",
@@ -26,7 +25,7 @@ export default function LectureListContainer({ data, user }) {
         <FlatList
           showsHorizontalScrollIndicator={false}
           horizontal={true}
-          data={dataLecture || data}
+          data={dataLecture}
           keyExtractor={(data, i) => "key" + i}
           renderItem={({ item }) => {
             return <LectureCard item={item} />;

@@ -20,7 +20,7 @@ export default function ScreenKRS({ navigation }) {
     dispatch(addKRS(inputKRS, token))
       .then((res) => res.json())
       .then(async (res) => {
-        await dispatch(fetchLecture(token, dataUser.role));
+        await dispatch(fetchLecture(token, dataUser));
         showSuccessAddKRS(res.message);
         navigation.navigate("Beranda-Stack");
       })

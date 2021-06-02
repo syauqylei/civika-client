@@ -87,8 +87,8 @@ export function sendPayment(payload, token, id) {
 
 export function fetchLecture(access_token, dataUser) {
   let conditionUrl;
-  if (dataUser === "student") {
-    conditionUrl = `${SERVER_URL}/class/`;
+  if (dataUser.role === "student") {
+    conditionUrl = `${SERVER_URL}/class/user/${dataUser.id}`;
   } else {
     conditionUrl = `${SERVER_URL}/lectures/`;
   }

@@ -31,13 +31,13 @@ export default function Login({ navigation }) {
   const { expoPushToken } = usePushToken();
   const dispatch = useDispatch();
   const [dataLogin, setDataLogin] = useState({
-    // email: "putra.awali@hacktivmail.com",
-    // password: "password234",
+    email: "fauzan.hilmy@hacktivmail.com",
+    password: "password345",
     // email: "",
     // password: "",
 
-    email: "andi.utomo@hacktivmail.com",
-    password: "password678",
+    // email: "andi.utomo@hacktivmail.com",
+    // password: "password678",
     pushToken: "",
   });
   const [validation, setValidation] = useState({
@@ -72,7 +72,7 @@ export default function Login({ navigation }) {
           } else {
             showSuccessLoginToast("Berhasil masuk");
             dispatch(setToken(res.access_token));
-            dispatch(fetchLecture(res.access_token, res.foundUser.role));
+            dispatch(fetchLecture(res.access_token, res.foundUser));
             dispatch(setUser(res.foundUser));
             navigation.navigate("BottomTabHome");
           }
@@ -86,7 +86,6 @@ export default function Login({ navigation }) {
     } else if (isEmail && !dataLogin.password) {
       setValidation((state) => ({ ...state, password: true }));
     } else if (!isEmail && dataLogin.password) {
-      console.log(isEmail);
       setValidation((state) => ({ ...state, email: true }));
     } else {
       setValidation((state) => ({ ...state, email: true, password: true }));
