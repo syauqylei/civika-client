@@ -9,7 +9,7 @@ export default function ScreenSKS() {
   const allLecture = useSelector((state) => state.allLecture);
   const studentData = useSelector((state) => state.dataUser);
   let totalSKS = 0;
-  allLecture.forEach((lecture) => (totalSKS += +lecture.credits));
+  allLecture.forEach((lecture) => (totalSKS += +lecture.Lecture.credits));
 
   return (
     <View style={styles.container}>

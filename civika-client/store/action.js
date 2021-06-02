@@ -92,6 +92,7 @@ export function fetchLecture(access_token, dataUser) {
   } else {
     conditionUrl = `${SERVER_URL}/lectures/`;
   }
+  console.log(dataUser, "role <<<<<<<<<<<");
 
   return function (dispatch) {
     dispatch({ type: SET_LECTURE_LOADING, payload: true });

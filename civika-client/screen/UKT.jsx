@@ -5,13 +5,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Linking,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import useRupiah from "../hooks/useRupiah";
 import { Label, Card, Button } from "native-base";
+import { WebView } from 'react-native-webview';
 import ModalPaymentUKT from "../components/ModalPaymentUKT";
-import { editUser, sendPayment } from "../store/action";
+import { editUser, sendPayment, fetchUser } from "../store/action";
 
 export default function ScreenUKT() {
   const actionSheetRef = createRef();
@@ -43,69 +43,21 @@ export default function ScreenUKT() {
   }
 
   function openUrl() {
-    Linking.canOpenURL(paymentUrl).then((supported) => {
-      if (supported) {
-        Linking.openURL(paymentUrl);
-        dispatch(editUser({ ...studentData, uktStatus: true }, token));
-      } else {
-        console.log("Don't know how to open URI: ");
-      }
-    });
+    setPaymentUrl(false)
+    dispatch(editUser({ ...studentData, uktStatus: true }, token))
+      .then((res) => res.json())
+      .then(() => {
+        dispatch(fetchUser(studentData.id, token));
+      })
+      .catch((err) => console.log(err))
   }
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Form Pembayaran UKT</Text>
-      <View style={{ flex: 1 }}>
-        <Card style={styles.card}>
-          <Label style={styles.label}>Nama</Label>
-          <Text style={styles.text}>{studentData.fullName}</Text>
-        </Card>
-        <Card style={styles.card}>
-          <Label style={styles.label}>Total UKT</Label>
-          <Text style={styles.text}>Rp {uktConverted}</Text>
-        </Card>
-        <Card style={styles.card}>
-          <Label style={styles.label}>Status Pembayaran</Label>
-          <Text style={styles.text}>
-            {studentData.uktStatus ? "Lunas" : "Menunggu Pembayaran"}
-          </Text>
-        </Card>
-        <Card style={{ ...styles.card, height: 80 }}>
-          <Label style={{ ...styles.label, flex: 1 }}>Metode Pembayaran</Label>
-          <TouchableOpacity
-            style={styles.pickerPaymentMethod}
-            onPress={() => {
-              !studentData.uktStatus
-                ? actionSheetRef.current?.setModalVisible()
-                : null;
-            }}
-          >
-            <TextInput
-              value={paymentMethod}
-              editable={false}
-              placeholder="Pilih Metode Pembayaran"
-              style={{ fontSize: 14 }}
-            />
-          </TouchableOpacity>
-          <ModalPaymentUKT
-            selectPaymentMethod={selectPaymentMethod}
-            actionSheetRef={actionSheetRef}
-            dataPayment={dataPayment}
-          />
-        </Card>
-        {!paymentUrl ? (
-          <Button style={styles.button} onPress={submitPaymentUKT}>
-            <Text
-              style={{
-                color: "#dbe2ef",
-                fontSize: 22,
-              }}
-            >
-              Pilih
-            </Text>
-          </Button>
-        ) : (
+  if (paymentUrl) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Form Pembayaran UKT</Text>
+        <View style={{ flex: 1 }}>
+          <WebView source={{ uri: paymentUrl }} style={{ marginTop: 20 }} />
           <Button style={styles.button} onPress={openUrl}>
             <Text
               style={{
@@ -116,10 +68,68 @@ export default function ScreenUKT() {
               Bayar
             </Text>
           </Button>
-        )}
+        </View>
       </View>
-    </View>
-  );
+    )
+  } else {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Form Pembayaran UKT</Text>
+        <View style={{ flex: 1 }}>
+          
+          <Card style={styles.card}>
+            <Label style={styles.label}>Nama</Label>
+            <Text style={styles.text}>{studentData.fullName}</Text>
+          </Card>
+          <Card style={styles.card}>
+            <Label style={styles.label}>Total UKT</Label>
+            <Text style={styles.text}>Rp {uktConverted}</Text>
+          </Card>
+          <Card style={styles.card}>
+            <Label style={styles.label}>Status Pembayaran</Label>
+            <Text style={styles.text}>
+              {studentData.uktStatus ? "Lunas" : "Menunggu Pembayaran"}
+            </Text>
+          </Card>
+          <Card style={{ ...styles.card, height: 80 }}>
+            <Label style={{ ...styles.label, flex: 1 }}>Metode Pembayaran</Label>
+            <TouchableOpacity
+              style={styles.pickerPaymentMethod}
+              onPress={() => {
+                !studentData.uktStatus
+                  ? actionSheetRef.current?.setModalVisible()
+                  : null;
+              }}
+            >
+              <TextInput
+                value={paymentMethod}
+                editable={false}
+                placeholder="Pilih Metode Pembayaran"
+                style={{ fontSize: 14 }}
+              />
+            </TouchableOpacity>
+            <ModalPaymentUKT
+              selectPaymentMethod={selectPaymentMethod}
+              actionSheetRef={actionSheetRef}
+              dataPayment={dataPayment}
+            />
+          </Card>
+          {studentData.uktStatus? null : 
+            <Button style={styles.button} onPress={submitPaymentUKT}>
+              <Text
+                style={{
+                  color: "#dbe2ef",
+                  fontSize: 22,
+                }}
+              >
+                Pilih
+              </Text>
+            </Button>
+          }
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
