@@ -17,7 +17,12 @@ import {
   Button,
 } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
-import { addAnnouncement } from "../store/action";
+import {
+  addAnnouncement,
+  SET_ANNOUNCEMENT,
+  SET_ANNOUNCEMENT_LOADING,
+  fetchAnnouncementTeacher,
+} from "../store/action";
 
 export default function AddAnnouncement({ navigation }) {
   const dispatch = useDispatch();
@@ -101,8 +106,20 @@ export default function AddAnnouncement({ navigation }) {
                 dispatch(addAnnouncement(payload, token))
                   .then((r) => r.json())
                   .then((r) => {
-                    showSucessAddAnnouncemet(r.message);
-                    navigation.navigate("Announcement-Stack");
+                    dispatch(fetchAnnouncementTeacher(token))
+                      .then((response) => response.json())
+                      .then((result) => {
+                        showSucessAddAnnouncemet(r.message);
+                        dispatch({ type: SET_ANNOUNCEMENT, payload: result });
+                        navigation.navigate("Announcement-Stack");
+                      })
+                      .catch(console.log)
+                      .finally(() => {
+                        dispatch({
+                          type: SET_ANNOUNCEMENT_LOADING,
+                          payload: true,
+                        });
+                      });
                   });
               }}
             >

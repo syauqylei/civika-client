@@ -81,21 +81,35 @@ export default function ProfileScreen({ navigation }) {
             }}
           >
             <Body style={styles.dataProfile}>
-              <Text style={styles.text}>Nama:</Text>
+              <Text style={{ ...styles.text, textDecorationLine: "underline" }}>
+                Nama:
+              </Text>
               <Text style={styles.text}>{input.fullName}</Text>
             </Body>
             <Body style={styles.dataProfile}>
-              <Text style={styles.text}>Email:</Text>
+              <Text style={{ ...styles.text, textDecorationLine: "underline" }}>
+                Email:
+              </Text>
               <Text style={styles.text}>{input.email}</Text>
             </Body>
             <Body style={styles.dataProfile}>
-              <Text style={styles.text}>Status:</Text>
+              <Text style={{ ...styles.text, textDecorationLine: "underline" }}>
+                Status:
+              </Text>
               <Text style={styles.text}>
                 {input.role === "student" ? "Mahasiswa" : "Dosen"}
               </Text>
             </Body>
             <Body style={styles.dataProfile}>
-              <Text style={styles.text}>Alamat:</Text>
+              <Text
+                style={{
+                  ...styles.text,
+                  textDecorationLine: "underline",
+                  marginBottom: 3,
+                }}
+              >
+                Alamat:
+              </Text>
               <TextInput
                 multiline={true}
                 onChangeText={(newItem) =>
@@ -106,7 +120,15 @@ export default function ProfileScreen({ navigation }) {
               />
             </Body>
             <Body style={styles.dataProfile}>
-              <Text style={styles.text}>Nomor Telepon: </Text>
+              <Text
+                style={{
+                  ...styles.text,
+                  textDecorationLine: "underline",
+                  marginBottom: 3,
+                }}
+              >
+                Nomor Telepon:{" "}
+              </Text>
               <TextInput
                 keyboardType="numeric"
                 onChangeText={(newItem) =>
