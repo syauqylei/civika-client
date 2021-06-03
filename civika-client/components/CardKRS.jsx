@@ -15,12 +15,22 @@ export default function CardKRS({ lecture, setInputKRS }) {
   }
 
   return (
-    <Card style={{ backgroundColor: "#3f72af", paddingHorizontal: 1 }}>
-      <Card>
+    <Card
+      style={{
+        backgroundColor: "#3f72af",
+        paddingHorizontal: 1,
+        borderRadius: 10,
+      }}
+    >
+      <Card style={{ borderRadius: 15 }}>
         <CardItem
           header
           bordered
-          style={{ flexDirection: "row", justifyContent: "space-between" }}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            borderRadius: 15,
+          }}
         >
           <Text style={{ fontSize: 18, fontWeight: "bold", color: "#112d4e" }}>
             {lecture.name}
@@ -31,7 +41,7 @@ export default function CardKRS({ lecture, setInputKRS }) {
             onPress={addClass}
           />
         </CardItem>
-        <CardItem bordered>
+        <CardItem bordered style={{ borderRadius: 15 }}>
           <Body
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >

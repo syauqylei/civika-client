@@ -9,7 +9,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import useRupiah from "../hooks/useRupiah";
 import { Label, Card, Button } from "native-base";
-import { WebView } from 'react-native-webview';
+import { WebView } from "react-native-webview";
 import ModalPaymentUKT from "../components/ModalPaymentUKT";
 import { editUser, sendPayment, fetchUser } from "../store/action";
 
@@ -32,24 +32,22 @@ export default function ScreenUKT() {
     const payment = dataPayment.find(
       (payment) => payment.name === paymentMethod
     );
-    console.log(payment);
     dispatch(sendPayment(payment, token, studentData.id))
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "<<<<<<<<<<<<<<<<<<<<");
         setPaymentUrl(data.paymentUrl);
       })
       .catch((err) => console.log(err));
   }
 
   function openUrl() {
-    setPaymentUrl(false)
+    setPaymentUrl(false);
     dispatch(editUser({ ...studentData, uktStatus: true }, token))
       .then((res) => res.json())
       .then(() => {
         dispatch(fetchUser(studentData.id, token));
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }
 
   if (paymentUrl) {
@@ -70,13 +68,12 @@ export default function ScreenUKT() {
           </Button>
         </View>
       </View>
-    )
+    );
   } else {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Form Pembayaran UKT</Text>
         <View style={{ flex: 1 }}>
-          
           <Card style={styles.card}>
             <Label style={styles.label}>Nama</Label>
             <Text style={styles.text}>{studentData.fullName}</Text>
@@ -92,7 +89,9 @@ export default function ScreenUKT() {
             </Text>
           </Card>
           <Card style={{ ...styles.card, height: 80 }}>
-            <Label style={{ ...styles.label, flex: 1 }}>Metode Pembayaran</Label>
+            <Label style={{ ...styles.label, flex: 1 }}>
+              Metode Pembayaran
+            </Label>
             <TouchableOpacity
               style={styles.pickerPaymentMethod}
               onPress={() => {
@@ -114,7 +113,7 @@ export default function ScreenUKT() {
               dataPayment={dataPayment}
             />
           </Card>
-          {studentData.uktStatus? null : 
+          {studentData.uktStatus ? null : (
             <Button style={styles.button} onPress={submitPaymentUKT}>
               <Text
                 style={{
@@ -125,7 +124,7 @@ export default function ScreenUKT() {
                 Pilih
               </Text>
             </Button>
-          }
+          )}
         </View>
       </View>
     );
@@ -165,6 +164,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     marginVertical: 20,
+
+    borderRadius: 10,
   },
   pickerPaymentMethod: {
     flex: 1,

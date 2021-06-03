@@ -29,6 +29,7 @@ export default function AnnouncementScreen({ navigation }) {
   const announcementsLoading = useSelector(
     (state) => state.announcementsLoading
   );
+
   const [update, setUpdate] = useState(0);
 
   function realtimeUpdate() {
@@ -57,37 +58,40 @@ export default function AnnouncementScreen({ navigation }) {
   }, [update]);
 
   return (
-    <Container
-      style={{
-        alignItems: "center",
-        justifyContent: "center",
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : null,
-      }}
-    >
-      <H1 style={{ margin: 5 }}> Pengumuman </H1>
-      <Content style={{ margin: 10 }}>
-        {announcements.map((announcement, id) => {
-          return (
-            <AnnouncementList
-              announcement={announcement}
-              key={id}
-              dataUser={dataUser}
-            />
-          );
-        })}
-      </Content>
-      {dataUser.role === "teacher" ? (
-        <FAB
-          buttonColor="#112d4e"
-          iconTextColor="#FFFFFF"
-          onClickAction={() => {
-            navigation.navigate("Pengumuman");
-          }}
-          visible={true}
-          iconTextComponent={<Icon type="Entypo" name="plus" />}
-        />
-      ) : null}
-    </Container>
+    <>
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop:
+            Platform.OS === "android" ? StatusBar.currentHeight + 15 : null,
+        }}
+      >
+        <H1 style={{ marginTop: 5 }}> Pengumuman </H1>
+        <Content showsVerticalScrollIndicator={false} style={{ margin: 10 }}>
+          {announcements.map((announcement, id) => {
+            return (
+              <AnnouncementList
+                announcement={announcement}
+                key={id}
+                dataUser={dataUser}
+              />
+            );
+          })}
+        </Content>
+        {dataUser.role === "teacher" ? (
+          <FAB
+            buttonColor="#112d4e"
+            iconTextColor="#FFFFFF"
+            onClickAction={() => {
+              navigation.navigate("Pengumuman");
+            }}
+            visible={true}
+            iconTextComponent={<Icon type="Entypo" name="plus" />}
+          />
+        ) : null}
+      </Container>
+    </>
   );
 }
 // }
@@ -100,5 +104,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+  },
+  modalContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#dbe2ef",
+    borderRadius: 15,
+    padding: 35,
+    marginHorizontal: width / 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  textModal: {
+    textAlign: "center",
+    fontSize: 15,
+  },
+  buttonModal: {
+    marginHorizontal: 15,
+    width: 70,
+    justifyContent: "center",
+    height: 30,
+    borderRadius: 6,
+  },
+  buttonTextModal: {
+    fontSize: 16,
   },
 });

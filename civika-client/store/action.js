@@ -1,4 +1,4 @@
-const SERVER_URL = "http://54.179.1.235:3000";
+const SERVER_URL = "http://localhost:3000";
 export const SET_EXPO_PUSH_TOKEN = "expoPushToken/setExpoPushToken";
 export const SET_ANNOUNCEMENT = "announcement/setAnnouncement";
 export const SET_ANNOUNCEMENT_LOADING = "announcement/setAnnouncementLoading";
@@ -92,7 +92,6 @@ export function fetchLecture(access_token, dataUser) {
   } else {
     conditionUrl = `${SERVER_URL}/lectures/`;
   }
-  console.log(dataUser, "role <<<<<<<<<<<");
 
   return function (dispatch) {
     dispatch({ type: SET_LECTURE_LOADING, payload: true });
@@ -127,18 +126,14 @@ export function getClassStudents(lectureId, token) {
 }
 
 export function deleteAnnouncementById(id, token) {
-  return function (dispatch) {
-    fetch(`${SERVER_URL}/announcement/${id}`, {
+  return function () {
+    return fetch(`${SERVER_URL}/announcement/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         access_token: token,
       },
-    })
-      .then((response) => response.json())
-      .then(() => {
-        dispatch(fetchAnnouncementTeacher(token));
-      });
+    });
   };
 }
 

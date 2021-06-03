@@ -13,16 +13,24 @@ export default function ScreenKRS({ navigation }) {
   const token = useSelector((state) => state.access_token);
 
   const showSuccessAddKRS = (message) => {
-    ToastAndroid.showWithGravity(message, ToastAndroid.SHORT, ToastAndroid.TOP);
+    ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
   function submitKRS() {
     dispatch(addKRS(inputKRS, token))
       .then((res) => res.json())
       .then(async (res) => {
-        await dispatch(fetchLecture(token, dataUser));
-        showSuccessAddKRS(res.message);
-        navigation.navigate("Beranda-Stack");
+        if (res.message === "Batas kuota kelas telah mencapai maksimum") {
+          showSuccessAddKRS(res.message);
+        } else {
+          await dispatch(fetchLecture(token, dataUser));
+          if (res.fullClass) {
+            showSuccessAddKRS(`${res.message}${res.fullClass.join(", ")}`);
+          } else {
+            showSuccessAddKRS(res.message);
+          }
+          navigation.navigate("Beranda-Stack");
+        }
       })
       .catch((err) => console.log(err));
   }
@@ -32,7 +40,7 @@ export default function ScreenKRS({ navigation }) {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flex: 1, marginHorizontal: 9 }}>
         {classes.map((lecture) => (
           <CardKRS
@@ -43,7 +51,7 @@ export default function ScreenKRS({ navigation }) {
         ))}
         <Button
           primary
-          style={{ alignSelf: "center", marginVertical: 13 }}
+          style={{ alignSelf: "center", marginVertical: 13, borderRadius: 10 }}
           onPress={() => submitKRS()}
         >
           <Text style={styles.button}>Ambil KRS</Text>

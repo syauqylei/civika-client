@@ -60,10 +60,10 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <Container style={styles.container}>
-      <H1 style={{ margin: 5 }}>
+      <H1 style={{ marginTop: 5 }}>
         Profil {input.role === "student" ? "Mahasiswa" : "Dosen"}
       </H1>
-      <Content style={{ marginTop: 10 }}>
+      <Content showsVerticalScrollIndicator={false} style={{ marginTop: 10 }}>
         <Card style={styles.card}>
           <CardItem header style={styles.thumbnail}>
             <Thumbnail
@@ -81,19 +81,37 @@ export default function ProfileScreen({ navigation }) {
             }}
           >
             <Body style={styles.dataProfile}>
-              <Text style={{ ...styles.text, textDecorationLine: "underline" }}>
+              <Text
+                style={{
+                  ...styles.text,
+                  textDecorationLine: "underline",
+                  fontWeight: "bold",
+                }}
+              >
                 Nama:
               </Text>
               <Text style={styles.text}>{input.fullName}</Text>
             </Body>
             <Body style={styles.dataProfile}>
-              <Text style={{ ...styles.text, textDecorationLine: "underline" }}>
+              <Text
+                style={{
+                  ...styles.text,
+                  textDecorationLine: "underline",
+                  fontWeight: "bold",
+                }}
+              >
                 Email:
               </Text>
               <Text style={styles.text}>{input.email}</Text>
             </Body>
             <Body style={styles.dataProfile}>
-              <Text style={{ ...styles.text, textDecorationLine: "underline" }}>
+              <Text
+                style={{
+                  ...styles.text,
+                  textDecorationLine: "underline",
+                  fontWeight: "bold",
+                }}
+              >
                 Status:
               </Text>
               <Text style={styles.text}>
@@ -106,6 +124,7 @@ export default function ProfileScreen({ navigation }) {
                   ...styles.text,
                   textDecorationLine: "underline",
                   marginBottom: 3,
+                  fontWeight: "bold",
                 }}
               >
                 Alamat:
@@ -125,6 +144,7 @@ export default function ProfileScreen({ navigation }) {
                   ...styles.text,
                   textDecorationLine: "underline",
                   marginBottom: 3,
+                  fontWeight: "bold",
                 }}
               >
                 Nomor Telepon:{" "}
@@ -180,13 +200,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : null,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 15 : null,
   },
   thumbnail: {
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
     backgroundColor: "#dbe2ef",
     justifyContent: "center",
+    marginBottom: -15,
   },
   text: { fontSize: 15, marginTop: 4 },
   button: {
@@ -196,12 +217,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonLogout: {
-    width: 300,
+    width: 200,
     justifyContent: "center",
     alignSelf: "center",
-    borderRadius: 30,
+    borderRadius: 15,
     backgroundColor: "#B22222",
-    marginTop: 15,
+    marginVertical: 15,
   },
   dataProfile: {
     marginVertical: 5,

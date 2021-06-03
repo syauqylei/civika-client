@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList, Text } from "react-native";
 import LectureCard from "./LectureCard";
 export default function LectureListContainer({ data, user }) {

@@ -7,31 +7,12 @@ export default function LectureCard({ item }) {
   const dataUser = useSelector((state) => state.dataUser);
 
   return (
-    <View
-      style={{
-        borderRadius: 15,
-        backgroundColor: "#dbe2ef",
-        height: 200,
-        width: width - 55,
-        marginVertical: 10,
-        marginHorizontal: 10,
-        justifyContent: "space-between",
-      }}
-    >
-      <View>
-        <Text
-          style={{
-            color: "#3f72af",
-            fontSize: 20,
-            fontWeight: "bold",
-            marginLeft: 15,
-            marginTop: 12,
-          }}
-        >
-          {item.name}
-        </Text>
-      </View>
-      <View>
+    <View style={styles.card}>
+      <View style={styles.leftColor} />
+      <View style={styles.insideInfo}>
+        <View>
+          <Text style={styles.lectureName}>{item.name}</Text>
+        </View>
         <View
           style={{
             flexDirection: "row",
@@ -63,17 +44,8 @@ export default function LectureCard({ item }) {
             </Text>
           </View>
           {dataUser.role === "student" ? (
-            <View style={{ flex: 1 }}>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 20,
-                  alignSelf: "center",
-                  color: "#3f72af",
-                }}
-              >
-                Dosen
-              </Text>
+            <View style={{ flex: 1.5 }}>
+              <Text style={styles.info}>Dosen</Text>
               <Text
                 style={{
                   alignSelf: "center",
@@ -81,7 +53,7 @@ export default function LectureCard({ item }) {
                   textAlign: "center",
                 }}
               >
-                Andi Javier
+                {item.teacher}
               </Text>
             </View>
           ) : null}
@@ -97,5 +69,31 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: "center",
     color: "#3f72af",
+  },
+  card: {
+    borderRadius: 15,
+    backgroundColor: "#dbe2ef",
+    height: 200,
+    width: width - 80,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    flexDirection: "row",
+  },
+  leftColor: {
+    flex: 1,
+    backgroundColor: "#16c79a",
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
+  },
+  insideInfo: {
+    justifyContent: "space-between",
+    flex: 30,
+  },
+  lectureName: {
+    color: "#3f72af",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 15,
+    marginTop: 12,
   },
 });
