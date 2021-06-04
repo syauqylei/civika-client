@@ -28,6 +28,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "an app manage that university education system",
+    "githubUrl": "https://github.com/Civika/civika-project.git"
   }
 }
